@@ -2,7 +2,68 @@ import java.util.List;
 
 public class Cadeira {
     private int id;
-    private String nome;
+    public Cadeira(int id, String nome, int creditos, List<Integer> prerequisitos, int corequisitos, int cargaHoraria,
+			int semestre) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.creditos = creditos;
+		this.prerequisitos = prerequisitos;
+		this.corequisitos = corequisitos;
+		this.cargaHoraria = cargaHoraria;
+		this.semestre = semestre;
+	}
+	@Override
+	public String toString() {
+		return "Cadeira [id=" + id + ", nome=" + nome + ", creditos=" + creditos + ", prerequisitos=" + prerequisitos
+				+ ", corequisitos=" + corequisitos + ", cargaHoraria=" + cargaHoraria + ", semestre=" + semestre
+				+ ", getId()=" + getId() + ", getNome()=" + getNome() + ", getCreditos()=" + getCreditos()
+				+ ", getPrerequisitos()=" + getPrerequisitos() + ", getCorequisitos()=" + getCorequisitos()
+				+ ", getCargaHoraria()=" + getCargaHoraria() + ", getSemestre()=" + getSemestre() + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public int getCreditos() {
+		return creditos;
+	}
+	public void setCreditos(int creditos) {
+		this.creditos = creditos;
+	}
+	public List<Integer> getPrerequisitos() {
+		return prerequisitos;
+	}
+	public void setPrerequisitos(List<Integer> prerequisitos) {
+		this.prerequisitos = prerequisitos;
+	}
+	public int getCorequisitos() {
+		return corequisitos;
+	}
+	public void setCorequisitos(int corequisitos) {
+		this.corequisitos = corequisitos;
+	}
+	public int getCargaHoraria() {
+		return cargaHoraria;
+	}
+	public void setCargaHoraria(int cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
+	}
+	public int getSemestre() {
+		return semestre;
+	}
+	public void setSemestre(int semestre) {
+		this.semestre = semestre;
+	}
+	private String nome;
     private int creditos;
     private List<Integer> prerequisitos;
     private int corequisitos;
