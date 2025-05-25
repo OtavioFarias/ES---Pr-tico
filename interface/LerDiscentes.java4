@@ -1,0 +1,37 @@
+package classes;
+
+import classes.*;
+import java.io.*;
+import java.util.*;
+
+public class LerDiscentes {
+
+    // Caminho da pasta onde estão os arquivos .csv de discentes
+    public static Discente buscarPorMatricula(String matricula, String caminho) {
+        File arquivo = new File(caminho, matricula + ".csv");
+
+        if (!arquivo.exists()) {
+            return null; // Não encontrado
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String nome = br.readLine(); // Primeira linha = nome
+
+            if (nome == null || nome.trim().isEmpty()) {
+                return null; // Nome ausente
+            }
+
+            // Inicializa o histórico
+            Historico historico = new Historico();
+
+
+            // Cria o Discente
+
+            return new Discente(nome, matricula);
+
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Erro ao ler o discente " + matricula + ": " + e.getMessage());
+            return null;
+        }
+    }
+}

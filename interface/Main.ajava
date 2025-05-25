@@ -1,0 +1,55 @@
+package classes;
+import java.util.Scanner;
+import classes.Cadastro;
+import classes.Discente;
+
+public class Main{
+    public static void main(){
+
+    Scanner scanner = new Scanner(System.in);
+
+    int choose = 1;
+
+        while(true){
+            System.out.print("\n1-Buscar discente \n2-Cadastrar novo discente \n0-Sair");
+            choose = scanner.nextInt();
+
+            switch(choose){
+                case 1:
+
+                //busca no banco de dados ou outra estrutura de dados
+                break;
+
+
+                case 2:
+
+                    System.out.print("\n1-Cadastrar a partir de arquivo\n2-Cadastrar manualmente");
+                    choose = scanner.nextInt();
+
+                    Discente discente;
+
+                    if(choose == 1){
+
+                        //discente = Cadastro.cadastrarArq();
+
+                    }
+
+                    else{
+
+                        discente = Cadastro.cadastrarDiscente();
+
+                    }
+
+                    //Dados.estruturaDados(discente);
+                break;
+
+
+
+                default: break;
+
+            }
+        }
+
+    }
+
+}

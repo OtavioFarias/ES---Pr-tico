@@ -1,3 +1,5 @@
+package classes;
+
 public class RequisitosCurso {
     private String nome;
     private int codigo;

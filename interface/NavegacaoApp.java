@@ -1,3 +1,7 @@
+package classes;
+
+import java.lang.Boolean;
+import classes.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +21,6 @@ public class NavegacaoApp {
         JFrame frame = new JFrame("Verificar Discente");
         JTextField campoMatricula = new JTextField(10);
         JButton botao = new JButton("Verificar");
-
         JPanel painel = new JPanel();
         painel.add(new JLabel("Digite a matrícula:"));
         painel.add(campoMatricula);
@@ -35,10 +38,10 @@ public class NavegacaoApp {
                 }
 
                 frame.dispose();
-                Aluno aluno = Aluno.verificarDiscente(matricula);
+                Discente discente = LerDiscentes.buscarPorMatricula("2310100999", "Discentes");
 
-                if (aluno != null) {
-                    tela2(aluno);
+                if (discente != null) {
+                    tela2(discente, discente.getHistorico());
                 } else {
                     tela3();
                 }
@@ -61,9 +64,9 @@ public class NavegacaoApp {
 
 
     // Tela 2: Encontrou o aluno
-    static void tela2(Aluno aluno) {
+    static void tela2(Discente discente, Historico historico) {
         JFrame frame = new JFrame("Aluno Encontrado");
-        JLabel label = new JLabel("Bem-vindo, " + aluno.getMatricula() + "!");
+        JLabel label = new JLabel("Bem-vindo, " + discente.getMatricula() + "!");
         JButton sair = new JButton("Sair");
 
         JButton botaoVoltar = new JButton("Voltar");
@@ -198,12 +201,12 @@ public class NavegacaoApp {
                 frame.dispose();
 
                 // Simulação: se nome do arquivo for "erro", vai para tela de cadastro
-                if (Cadastro.cadastrarDiscenteArq(nomeArquivo) == 1) {
+                if (CadastroArq.cadastrarDiscenteArq(nomeArquivo) == null) {
                     tela3();
                 } else {//arrumar aqui
                     // Exemplo: cria um Aluno fictício
-                    Aluno aluno = new Aluno(); // substitua conforme a lógica real
-                    tela2(aluno);
+                    Discente discente = new Discente("2310100999", "batata"); // substitua conforme a lógica real
+                    tela2(discente, discente.getHistorico());
                 }
             }
         };
@@ -227,489 +230,483 @@ public class NavegacaoApp {
 
     }
 
-   static void telaCadastro2() {
-        JFrame frame = new JFrame("Cadastrar Artigo Científico");
 
-        JLabel label = new JLabel("Digite o título do artigo:");
-        JTextField campoNomeArtigo = new JTextField(20);
+static void telaCadastro2(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Cadastrar Artigo Científico");
+    List<JTextField[]> listaDeCampos = new ArrayList<>();
+    JPanel painelCampos = new JPanel();
+    painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.Y_AXIS));
+    JButton botaoAdicionar = new JButton("Adicionar novo artigo");
+    JButton botaoSalvar = new JButton("Salvar");
+    JButton botaoVoltar = new JButton("Voltar");
 
-        JLabel label1 = new JLabel("Digite onde foi realizada a publicação:");
-        JTextField campoNomeVeiculo = new JTextField(20);
+    Runnable adicionarCampos = () -> {
+        JTextField campoTitulo = new JTextField(20);
+        JTextField campoVeiculo = new JTextField(20);
 
-        JButton botaoSalvar = new JButton("Salvar");
-        JButton botaoVoltar = new JButton("Voltar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                telaCadastro3();
-            }
-        };
-
-        campoNomeArtigo.addActionListener(salvarAcao);
-        campoNomeVeiculo.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
-
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();
-            tela4();
-        });
-
-        // Cada campo e label em um painel separado para centralizar
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha1.add(label);
+        linha1.add(new JLabel("Título do artigo:"));
+        linha1.add(campoTitulo);
 
         JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha2.add(campoNomeArtigo);
+        linha2.add(new JLabel("Veículo de publicação:"));
+        linha2.add(campoVeiculo);
 
-        JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha3.add(label1);
+        painelCampos.add(linha1);
+        painelCampos.add(linha2);
+        painelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JPanel linha4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha4.add(campoNomeVeiculo);
+        listaDeCampos.add(new JTextField[] { campoTitulo, campoVeiculo });
 
-        JPanel linhaBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        linhaBotoes.add(botaoSalvar);
-        linhaBotoes.add(botaoVoltar);
+        painelCampos.revalidate();
+        painelCampos.repaint();
+    };
+    adicionarCampos.run();
+    botaoAdicionar.addActionListener(e -> adicionarCampos.run());
 
-        // Painel principal com layout vertical
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-        painelPrincipal.add(linha1);
-        painelPrincipal.add(linha2);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-        painelPrincipal.add(linha3);
-        painelPrincipal.add(linha4);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
-        painelPrincipal.add(linhaBotoes);
-
-        frame.setContentPane(painelPrincipal);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-
-
-    static void telaCadastro3() {
-        JFrame frame = new JFrame("Cadastrar Atividade Complementar");
-
-        JLabel label = new JLabel("Digite a descrição da atividade:");
-        JTextField campoDescAtiv = new JTextField(20);
-
-        JLabel label1 = new JLabel("Digite as horas da atividade:");
-        JTextField campoTempo = new JTextField(5);
-
-        JButton botaoSalvar = new JButton("Salvar");
-        JButton botaoVoltar = new JButton("Voltar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                telaCadastro4();
+    botaoSalvar.addActionListener(e -> {
+        for (JTextField[] campos : listaDeCampos) {
+            String titulo = campos[0].getText();
+            String veiculo = campos[1].getText();
+            if (!titulo.isEmpty() && !veiculo.isEmpty()) {
+                historico.cadastrarArtigo(titulo, veiculo);
             }
-        };
+        }
+        frame.dispose();
+        telaCadastro3(discente, historico);
+    });
 
-        campoDescAtiv.addActionListener(salvarAcao);
-        campoTempo.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        tela4();
+    });
 
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();
-            telaCadastro2();
-        });
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelBotoes.add(botaoAdicionar);
+    painelBotoes.add(botaoSalvar);
+    painelBotoes.add(botaoVoltar);
 
-        // Linha para descrição da atividade
+    JPanel painelPrincipal = new JPanel();
+    painelPrincipal.setLayout(new BorderLayout());
+    painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    painelPrincipal.add(new JScrollPane(painelCampos), BorderLayout.CENTER);
+    painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
+
+    frame.setContentPane(painelPrincipal);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
+
+static void telaCadastro3(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Cadastrar Atividade Complementar");
+    List<JTextField[]> listaDeCampos = new ArrayList<>();
+    JPanel painelCampos = new JPanel();
+    painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.Y_AXIS));
+    JButton botaoAdicionar = new JButton("Adicionar nova atividade");
+    JButton botaoSalvar = new JButton("Salvar");
+    JButton botaoVoltar = new JButton("Voltar");
+
+    Runnable adicionarCampos = () -> {
+        JTextField campoDescricao = new JTextField(20);
+        JTextField campoHoras = new JTextField(5);
+
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha1.add(label);
+        linha1.add(new JLabel("Descrição da atividade:"));
+        linha1.add(campoDescricao);
 
         JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha2.add(campoDescAtiv);
+        linha2.add(new JLabel("Horas da atividade:"));
+        linha2.add(campoHoras);
 
-        // Linha para horas da atividade
-        JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha3.add(label1);
+        painelCampos.add(linha1);
+        painelCampos.add(linha2);
+        painelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JPanel linha4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha4.add(campoTempo);
+        listaDeCampos.add(new JTextField[] { campoDescricao, campoHoras });
+        painelCampos.revalidate();
+        painelCampos.repaint();
+    };
+    adicionarCampos.run();
+    botaoAdicionar.addActionListener(e -> adicionarCampos.run());
 
-        // Linha dos botões
-        JPanel linhaBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        linhaBotoes.add(botaoSalvar);
-        linhaBotoes.add(botaoVoltar);
+    botaoSalvar.addActionListener(e -> {
+        for (JTextField[] campos : listaDeCampos) {
+            String desc = campos[0].getText();
+            String horasStr = campos[1].getText();
+            if (!desc.isEmpty() && !horasStr.isEmpty()) {
+                try {
+                    int horas = Integer.parseInt(horasStr);
+                    historico.cadastrarPraticaExtensionista(desc, horas);
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+        frame.dispose();
+        telaCadastro4(discente, historico);
+    });
 
-        // Painel principal com layout vertical
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        telaCadastro2(discente, historico);
+    });
 
-        painelPrincipal.add(linha1);
-        painelPrincipal.add(linha2);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-        painelPrincipal.add(linha3);
-        painelPrincipal.add(linha4);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
-        painelPrincipal.add(linhaBotoes);
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelBotoes.add(botaoAdicionar);
+    painelBotoes.add(botaoSalvar);
+    painelBotoes.add(botaoVoltar);
 
-        frame.setContentPane(painelPrincipal);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
+    JPanel painelPrincipal = new JPanel();
+    painelPrincipal.setLayout(new BorderLayout());
+    painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    painelPrincipal.add(new JScrollPane(painelCampos), BorderLayout.CENTER);
+    painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
 
+    frame.setContentPane(painelPrincipal);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
 
-    static void telaCadastro4() {
-        JFrame frame = new JFrame("Cadastrar estágio");
+static void telaCadastro4(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Cadastrar Estágio");
+    List<JTextField[]> listaDeCampos = new ArrayList<>();
+    JPanel painelCampos = new JPanel();
+    painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.Y_AXIS));
+    JButton botaoAdicionar = new JButton("Adicionar novo estágio");
+    JButton botaoSalvar = new JButton("Salvar");
+    JButton botaoVoltar = new JButton("Voltar");
 
-        JLabel label = new JLabel("Digite as horas:");
-        JTextField campoTempo = new JTextField(10);
-
-        JLabel label1 = new JLabel("Digite onde foi realizado:");
+    Runnable adicionarCampos = () -> {
+        JTextField campoHoras = new JTextField(5);
         JTextField campoEmpresa = new JTextField(20);
+        JTextField campoTipo = new JTextField(10);
 
-        JLabel label2 = new JLabel("Digite o tipo de estágio:");
-        // Exemplo de opções para tipo de estágio
-        String[] tiposEstagio = { "Obrigatório", "Não obrigatório", "Voluntário", "Outro" };
-        JComboBox<String> comboTipo = new JComboBox<>(tiposEstagio);
-
-        JButton botaoSalvar = new JButton("Salvar");
-        JButton botaoVoltar = new JButton("Voltar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                telaCadastro5();
-            }
-        };
-
-        campoTempo.addActionListener(salvarAcao);
-        campoEmpresa.addActionListener(salvarAcao);
-        comboTipo.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
-
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();
-            telaCadastro3();
-        });
-
-        // Linha horas
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha1.add(label);
+        linha1.add(new JLabel("Horas do estágio:"));
+        linha1.add(campoHoras);
 
         JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha2.add(campoTempo);
+        linha2.add(new JLabel("Empresa:"));
+        linha2.add(campoEmpresa);
 
-        // Linha empresa
         JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha3.add(label1);
+        linha3.add(new JLabel("Tipo de estágio:"));
+        linha3.add(campoTipo);
 
-        JPanel linha4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha4.add(campoEmpresa);
+        painelCampos.add(linha1);
+        painelCampos.add(linha2);
+        painelCampos.add(linha3);
+        painelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // Linha tipo estágio
-        JPanel linha5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha5.add(label2);
+        listaDeCampos.add(new JTextField[] { campoHoras, campoEmpresa, campoTipo });
+        painelCampos.revalidate();
+        painelCampos.repaint();
+    };
+    adicionarCampos.run();
+    botaoAdicionar.addActionListener(e -> adicionarCampos.run());
 
-        JPanel linha6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha6.add(comboTipo);
-
-        // Linha botões
-        JPanel linhaBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        linhaBotoes.add(botaoSalvar);
-        linhaBotoes.add(botaoVoltar);
-
-        // Painel principal vertical
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-        painelPrincipal.add(linha1);
-        painelPrincipal.add(linha2);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        painelPrincipal.add(linha3);
-        painelPrincipal.add(linha4);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        painelPrincipal.add(linha5);
-        painelPrincipal.add(linha6);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
-
-        painelPrincipal.add(linhaBotoes);
-
-        frame.setContentPane(painelPrincipal);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-
-   static void telaCadastro5() {
-        JFrame frame = new JFrame("Cadastrar Serviço Comunitário");
-
-        JLabel label = new JLabel("Digite a atividade:");
-        JTextField campoAtividade = new JTextField(30);
-
-        JLabel label1 = new JLabel("Digite as horas:");
-        JTextField campoHoras = new JTextField(10);
-
-        JButton botaoSalvar = new JButton("Salvar");
-        JButton botaoVoltar = new JButton("Voltar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                telaCadastro6();
+    botaoSalvar.addActionListener(e -> {
+        for (JTextField[] campos : listaDeCampos) {
+            String horasStr = campos[0].getText();
+            String empresa = campos[1].getText();
+            String tipo = campos[2].getText();
+            if (!horasStr.isEmpty() && !empresa.isEmpty() && !tipo.isEmpty()) {
+                try {
+                    int horas = Integer.parseInt(horasStr);
+                    historico.cadastrarEstagio(empresa, horas, tipo);
+                } catch (NumberFormatException ignored) {}
             }
-        };
+        }
+        frame.dispose();
+        telaCadastro5(discente, historico);
+    });
 
-        campoAtividade.addActionListener(salvarAcao);
-        campoHoras.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        telaCadastro3(discente, historico);
+    });
 
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();
-            telaCadastro4();
-        });
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelBotoes.add(botaoAdicionar);
+    painelBotoes.add(botaoSalvar);
+    painelBotoes.add(botaoVoltar);
 
-        // Linhas separadas para labels e campos, centralizados
+    JPanel painelPrincipal = new JPanel();
+    painelPrincipal.setLayout(new BorderLayout());
+    painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    painelPrincipal.add(new JScrollPane(painelCampos), BorderLayout.CENTER);
+    painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
+
+    frame.setContentPane(painelPrincipal);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
+
+static void telaCadastro5(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Cadastrar Serviço");
+    List<JTextField[]> listaDeCampos = new ArrayList<>();
+    JPanel painelCampos = new JPanel();
+    painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.Y_AXIS));
+    JButton botaoAdicionar = new JButton("Adicionar novo serviço");
+    JButton botaoSalvar = new JButton("Salvar");
+    JButton botaoVoltar = new JButton("Voltar");
+
+    Runnable adicionarCampos = () -> {
+        JTextField campoAtividade = new JTextField(20);
+        JTextField campoHoras = new JTextField(5);
+
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha1.add(label);
+        linha1.add(new JLabel("Atividade do serviço:"));
+        linha1.add(campoAtividade);
 
         JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha2.add(campoAtividade);
+        linha2.add(new JLabel("Horas do serviço:"));
+        linha2.add(campoHoras);
 
-        JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha3.add(label1);
+        painelCampos.add(linha1);
+        painelCampos.add(linha2);
+        painelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JPanel linha4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha4.add(campoHoras);
+        listaDeCampos.add(new JTextField[] { campoAtividade, campoHoras });
+        painelCampos.revalidate();
+        painelCampos.repaint();
+    };
+    adicionarCampos.run();
+    botaoAdicionar.addActionListener(e -> adicionarCampos.run());
 
-        JPanel linhaBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        linhaBotoes.add(botaoSalvar);
-        linhaBotoes.add(botaoVoltar);
-
-        // Painel principal com BoxLayout vertical
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-        painelPrincipal.add(linha1);
-        painelPrincipal.add(linha2);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        painelPrincipal.add(linha3);
-        painelPrincipal.add(linha4);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
-
-        painelPrincipal.add(linhaBotoes);
-
-        frame.setContentPane(painelPrincipal);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    static void telaCadastro6() {
-        JFrame frame = new JFrame("Prática Extensionista");
-
-        JLabel label = new JLabel("Digite o nome do projeto:");
-        JTextField campoNome = new JTextField(30);
-
-        JLabel label1 = new JLabel("Digite o papel:");
-        JTextField campoPapel = new JTextField(30);
-
-        JLabel label2 = new JLabel("Digite os créditos:");
-        JTextField campoCreditos = new JTextField(10);
-
-        JButton botaoSalvar = new JButton("Salvar");
-        JButton botaoVoltar = new JButton("Voltar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                telaCadastro7();
+    botaoSalvar.addActionListener(e -> {
+        for (JTextField[] campos : listaDeCampos) {
+            String atividade = campos[0].getText();
+            String horasStr = campos[1].getText();
+            if (!atividade.isEmpty() && !horasStr.isEmpty()) {
+                try {
+                    int horas = Integer.parseInt(horasStr);
+                    historico.cadastrarServicoComunitario(atividade, horas);
+                } catch (NumberFormatException ignored) {}
             }
-        };
+        }
+        frame.dispose();
+        telaCadastro6(discente, historico);
+    });
 
-        campoNome.addActionListener(salvarAcao);
-        campoPapel.addActionListener(salvarAcao);
-        campoCreditos.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        telaCadastro4(discente, historico);
+    });
 
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();
-            telaCadastro5();
-        });
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelBotoes.add(botaoAdicionar);
+    painelBotoes.add(botaoSalvar);
+    painelBotoes.add(botaoVoltar);
 
-        // Linhas para labels e campos
+    JPanel painelPrincipal = new JPanel();
+    painelPrincipal.setLayout(new BorderLayout());
+    painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    painelPrincipal.add(new JScrollPane(painelCampos), BorderLayout.CENTER);
+    painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
+
+    frame.setContentPane(painelPrincipal);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
+static void telaCadastro6(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Cadastrar Extensão");
+    List<JTextField[]> listaDeCampos = new ArrayList<>();
+    JPanel painelCampos = new JPanel();
+    painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.Y_AXIS));
+    JButton botaoAdicionar = new JButton("Adicionar nova extensão");
+    JButton botaoSalvar = new JButton("Salvar");
+    JButton botaoVoltar = new JButton("Voltar");
+
+    Runnable adicionarCampos = () -> {
+        JTextField campoProjeto = new JTextField(20);
+        JTextField campoPapel = new JTextField(20);
+        JTextField campoCreditos = new JTextField(5);
+
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha1.add(label);
+        linha1.add(new JLabel("Projeto de extensão:"));
+        linha1.add(campoProjeto);
 
         JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha2.add(campoNome);
+        linha2.add(new JLabel("Papel na extensão:"));
+        linha2.add(campoPapel);
 
         JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha3.add(label1);
+        linha3.add(new JLabel("Créditos:"));
+        linha3.add(campoCreditos);
 
-        JPanel linha4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha4.add(campoPapel);
+        painelCampos.add(linha1);
+        painelCampos.add(linha2);
+        painelCampos.add(linha3);
+        painelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JPanel linha5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha5.add(label2);
+        listaDeCampos.add(new JTextField[] { campoProjeto, campoPapel, campoCreditos });
+        painelCampos.revalidate();
+        painelCampos.repaint();
+    };
+    adicionarCampos.run();
+    botaoAdicionar.addActionListener(e -> adicionarCampos.run());
 
-        JPanel linha6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha6.add(campoCreditos);
-
-        JPanel linhaBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        linhaBotoes.add(botaoSalvar);
-        linhaBotoes.add(botaoVoltar);
-
-        // Painel principal com BoxLayout vertical
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-        painelPrincipal.add(linha1);
-        painelPrincipal.add(linha2);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        painelPrincipal.add(linha3);
-        painelPrincipal.add(linha4);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        painelPrincipal.add(linha5);
-        painelPrincipal.add(linha6);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
-
-        painelPrincipal.add(linhaBotoes);
-
-        frame.setContentPane(painelPrincipal);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-
-    static void telaCadastro7() {
-        JFrame frame = new JFrame("Cadastrar Resumo Expandido");
-
-        JLabel label = new JLabel("Digite o título do resumo:");
-        JTextField campoNome = new JTextField(30);
-
-        JLabel label1 = new JLabel("Digite o evento de apresentação:");
-        JTextField campoEvento = new JTextField(30);
-
-        JButton botaoSalvar = new JButton("Salvar");
-        JButton botaoVoltar = new JButton("Voltar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                telaCadastro8();
+    botaoSalvar.addActionListener(e -> {
+        for (JTextField[] campos : listaDeCampos) {
+            String projeto = campos[0].getText();
+            String papel = campos[1].getText();
+            String creditosStr = campos[2].getText();
+            if (!projeto.isEmpty() && !papel.isEmpty() && !creditosStr.isEmpty()) {
+                try {
+                    int creditos = Integer.parseInt(creditosStr);
+                    historico.cadastrarPraticaExtensionista(projeto, creditos);
+                } catch (NumberFormatException ignored) {}
             }
-        };
+        }
+        frame.dispose();
+        telaCadastro7(discente, historico);
+    });
 
-        campoNome.addActionListener(salvarAcao);
-        campoEvento.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        telaCadastro5(discente, historico);
+    });
 
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();
-            telaCadastro6();
-        });
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelBotoes.add(botaoAdicionar);
+    painelBotoes.add(botaoSalvar);
+    painelBotoes.add(botaoVoltar);
 
-        // Linhas com FlowLayout centralizado para labels e campos
+    JPanel painelPrincipal = new JPanel();
+    painelPrincipal.setLayout(new BorderLayout());
+    painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    painelPrincipal.add(new JScrollPane(painelCampos), BorderLayout.CENTER);
+    painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
+
+    frame.setContentPane(painelPrincipal);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
+static void telaCadastro7(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Cadastrar Resumo");
+    List<JTextField[]> listaDeCampos = new ArrayList<>();
+    JPanel painelCampos = new JPanel();
+    painelCampos.setLayout(new BoxLayout(painelCampos, BoxLayout.Y_AXIS));
+    JButton botaoAdicionar = new JButton("Adicionar novo resumo");
+    JButton botaoSalvar = new JButton("Salvar");
+    JButton botaoVoltar = new JButton("Voltar");
+
+    Runnable adicionarCampos = () -> {
+        JTextField campoTitulo = new JTextField(20);
+        JTextField campoEvento = new JTextField(20);
+
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha1.add(label);
+        linha1.add(new JLabel("Título do resumo:"));
+        linha1.add(campoTitulo);
 
         JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha2.add(campoNome);
+        linha2.add(new JLabel("Evento:"));
+        linha2.add(campoEvento);
 
-        JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha3.add(label1);
+        painelCampos.add(linha1);
+        painelCampos.add(linha2);
+        painelCampos.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        JPanel linha4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        linha4.add(campoEvento);
+        listaDeCampos.add(new JTextField[] { campoTitulo, campoEvento });
 
-        JPanel linhaBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        linhaBotoes.add(botaoSalvar);
-        linhaBotoes.add(botaoVoltar);
+        painelCampos.revalidate();
+        painelCampos.repaint();
+    };
+    adicionarCampos.run();
+    botaoAdicionar.addActionListener(e -> adicionarCampos.run());
 
-        // Painel principal com BoxLayout vertical e borda para espaçamento
-        JPanel painelPrincipal = new JPanel();
-        painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-        painelPrincipal.add(linha1);
-        painelPrincipal.add(linha2);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        painelPrincipal.add(linha3);
-        painelPrincipal.add(linha4);
-        painelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
-
-        painelPrincipal.add(linhaBotoes);
-
-        frame.setContentPane(painelPrincipal);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
-    static void telaCadastro8() {
-
-        JFrame frame = new JFrame("Situação do ENADE");
-        JLabel label = new JLabel("Selecione sua situação no ENADE:");
-
-        JButton botaoVoltar = new JButton("Voltar");
-        botaoVoltar.addActionListener(e -> {
-            frame.dispose();  // Fecha a tela atual
-            telaCadastro7();          // Chama a tela1
-        });
-
-        String[] opcoes = {"Regular", "Irregular"};
-        JComboBox<String> comboSituacao = new JComboBox<>(opcoes);
-
-        JButton botaoSalvar = new JButton("Salvar");
-
-        Action salvarAcao = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String situacaoSelecionada = (String) comboSituacao.getSelectedItem();
-
-                frame.dispose();
-                tela1(); // Chama a próxima tela
+    botaoSalvar.addActionListener(e -> {
+        for (JTextField[] campos : listaDeCampos) {
+            String titulo = campos[0].getText();
+            String evento = campos[1].getText();
+            if (!titulo.isEmpty() && !evento.isEmpty()) {
+                historico.cadastrarResumoExpandido(titulo, evento,0);
             }
-        };
+        }
+        frame.dispose();
+        // Aqui pode finalizar o fluxo ou voltar para a tela inicial
+        telaCadastro8(discente, historico);
+    });
 
-        comboSituacao.addActionListener(salvarAcao);
-        botaoSalvar.addActionListener(salvarAcao);
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        telaCadastro6(discente, historico);
+    });
 
-        JPanel painelCentro = new JPanel();
-        painelCentro.add(label);
-        painelCentro.add(comboSituacao);
-        painelCentro.add(botaoSalvar);
-        painelCentro.add(botaoVoltar);
+    JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    painelBotoes.add(botaoAdicionar);
+    painelBotoes.add(botaoSalvar);
+    painelBotoes.add(botaoVoltar);
 
-        JPanel painel = new JPanel(new BorderLayout());
-        painel.add(painelCentro, BorderLayout.CENTER);
+    JPanel painelPrincipal = new JPanel();
+    painelPrincipal.setLayout(new BorderLayout());
+    painelPrincipal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+    painelPrincipal.add(new JScrollPane(painelCampos), BorderLayout.CENTER);
+    painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
 
-        frame.setContentPane(painel);
-        frame.setSize(400, 120);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
+    frame.setContentPane(painelPrincipal);
+    frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
+
+
+
+  static void telaCadastro8(Discente discente, Historico historico) {
+    JFrame frame = new JFrame("Situação do ENADE");
+    JLabel label = new JLabel("Selecione sua situação no ENADE:");
+
+    JButton botaoVoltar = new JButton("Voltar");
+    botaoVoltar.addActionListener(e -> {
+        frame.dispose();
+        telaCadastro7(discente, historico);
+    });
+
+    String[] opcoes = {"Regular", "Irregular"};
+    JComboBox<String> comboSituacao = new JComboBox<>(opcoes);
+
+    JButton botaoSalvar = new JButton("Salvar");
+
+    Action salvarAcao = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String situacaoSelecionada = (String) comboSituacao.getSelectedItem();
+            if (situacaoSelecionada != null && !situacaoSelecionada.isEmpty()) {
+                boolean enadeRegular = situacaoSelecionada.equals("Regular");
+
+                historico.cadastrarENADE(enadeRegular); // <-- agora passa boolean
+                CadastroArq.salvarDiscenteArq(discente);
+            }
+            frame.dispose();
+            tela1(); // próxima tela
+        }
+    };
+
+    comboSituacao.addActionListener(salvarAcao);
+    botaoSalvar.addActionListener(salvarAcao);
+
+    JPanel painelCentro = new JPanel();
+    painelCentro.add(label);
+    painelCentro.add(comboSituacao);
+    painelCentro.add(botaoSalvar);
+    painelCentro.add(botaoVoltar);
+
+    JPanel painel = new JPanel(new BorderLayout());
+    painel.add(painelCentro, BorderLayout.CENTER);
+
+    frame.setContentPane(painel);
+    frame.setSize(400, 120);
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}
+
 
     public static void telaCadastro1(List<String> materias) {
+        Discente discente = new Discente("2310100999", "Discentes");
         JFrame frame = new JFrame("Selecione as matérias");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -743,7 +740,7 @@ public class NavegacaoApp {
 
             // Aqui você pode usar a lista 'selecionadas'
             frame.dispose();
-            telaCadastro2(); // Altere conforme necessário
+            telaCadastro2(discente, discente.getHistorico()); // Altere conforme necessário
         });
 
         JPanel painel = new JPanel(new BorderLayout());
