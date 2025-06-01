@@ -1,0 +1,46 @@
+// === CLASSES PRINCIPAIS ===
+[Discente|nome:string;matricula:int;historico:Historico|...]
+
+// Interfaces
+[<<interface>>Historico]
+[<<interface>>Cadeira]
+[<<interface>>Estagio]
+[<<interface>>Publicacoes]
+[<<interface>>AtividadeCurricular]
+
+// Classes concretas
+[Historico_Computacao|semestreAtual:int|...]
+[SituacaoENADE|regular:boolean|verificarCumprimento():bool]
+[Cadeira_Obrigatoria|id:int;nome:string;creditos:int|...]
+[Cadeira_Opcional|id:int;nome:string;creditos:int|...]
+[Estagio_Obrigatorio|empresa:string;horas:int;tipo:string|validar():bool]
+[Estagio_Nao_Obrigatorio|empresa:string;horas:int;tipo:string|validar():bool]
+[ServicoComunitario|atividade:string;horas:int|validar():bool]
+[PraticaExtensionista|projeto:string;papel:string;creditos:int|validar():bool]
+[AtividadeComplementar|descricao:string;horas:int|validar():bool]
+[ResumoExpandido|titulo:string;evento:string;semestre:int|validar():bool]
+[ArtigoCientifico|titulo:string;veiculo:string;semestre:int|validar():bool]
+
+// === RELAÇÕES ===
+[Discente]o--[<<interface>>Historico]
+
+[Historico_Computacao]^-.-[<<interface>>Historico]
+
+[Cadeira_Obrigatoria]^-.-[<<interface>>Cadeira]
+[Cadeira_Opcional]^-.-[<<interface>>Cadeira]
+
+[Estagio_Obrigatorio]^-.-[<<interface>>Estagio]
+[Estagio_Nao_Obrigatorio]^-.-[<<interface>>Estagio]
+
+[ResumoExpandido]^-.-[<<interface>>Publicacoes]
+[ArtigoCientifico]^-.-[<<interface>>Publicacoes]
+
+[ServicoComunitario]^-.-[<<interface>>AtividadeCurricular]
+[PraticaExtensionista]^-.-[<<interface>>AtividadeCurricular]
+[AtividadeComplementar]^-.-[<<interface>>AtividadeCurricular]
+
+[Historico_Computacao]-->[<<interface>>Cadeira]
+[Historico_Computacao]-->[<<interface>>AtividadeCurricular]
+[Historico_Computacao]-->[<<interface>>Estagio]
+[Historico_Computacao]-->[<<interface>>Publicacoes]
+[Historico_Computacao]-->[SituacaoENADE]
