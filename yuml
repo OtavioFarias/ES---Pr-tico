@@ -22,22 +22,22 @@
 [ArtigoCientifico|titulo:string;veiculo:string;semestre:int|validar():bool]
 
 // === RELAÇÕES ===
-[Discente]o--[<<interface>>Historico]
+[Discente]<>--[<<interface>>Historico]
 
-[Historico Computacao]<>-.-[<<interface>>Historico]
+[Historico Computacao]-.-^[<<interface>>Historico]
 
-[Componente Curricular Obrigatoria]^-.-[<<interface>>Componente Curricular]
-[Componente Curricular Opcional]^-.-[<<interface>>Componente Curricular]
+[Componente Curricular Obrigatoria]-.-^[<<interface>>Componente Curricular]
+[Componente Curricular Opcional]-.-^[<<interface>>Componente Curricular]
 
-[Estagio Obrigatorio]^-.-[<<interface>>Estagio]
-[Estagio Nao Obrigatorio]^-.-[<<interface>>Estagio]
+[Estagio Obrigatorio]-.-^[<<interface>>Estagio]
+[Estagio Nao Obrigatorio]-.-^[<<interface>>Estagio]
 
-[ResumoExpandido]^-.-[<<interface>>Publicacoes]
-[ArtigoCientifico]^-.-[<<interface>>Publicacoes]
+[ResumoExpandido]-.-^[<<interface>>Publicacoes]
+[ArtigoCientifico]-.-^[<<interface>>Publicacoes]
 
-[ServicoComunitario]^-.-[<<interface>>AtividadeCurricular]
-[PraticaExtensionista]^-.-[<<interface>>AtividadeCurricular]
-[AtividadeComplementar]^-.-[<<interface>>AtividadeCurricular]
+[ServicoComunitario]-.-^[<<interface>>AtividadeCurricular]
+[PraticaExtensionista]-.-^[<<interface>>AtividadeCurricular]
+[AtividadeComplementar]-.-^[<<interface>>AtividadeCurricular]
 
 [Historico Computacao]-->[<<interface>>Componente Curricular]
 [Historico Computacao]-->[<<interface>>AtividadeCurricular]
