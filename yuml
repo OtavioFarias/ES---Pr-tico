@@ -9,7 +9,7 @@
 [<<interface>>AtividadeCurricular]
 
 // Classes concretas
-[Historico Computacao|semestreAtual:int|...]
+[Historico|semestreAtual:int|...]
 [SituacaoENADE|regular:boolean|verificarCumprimento():bool]
 [Componente Curricular Obrigatoria|id:int;nome:string;creditos:int|...]
 [Componente Curricular Opcional|id:int;nome:string;creditos:int|...]
@@ -22,25 +22,28 @@
 [ArtigoCientifico|titulo:string;veiculo:string;semestre:int|validar():bool]
 
 // === RELAÇÕES ===
-[Discente]<>--[<<interface>>Historico]
+[Discente]--<>[<<interface>>Historico]
 
-[Historico Computacao]-.-^[<<interface>>Historico]
+[Historico]-->[<<interface>>Componente Curricular]
+[Historico]-->[<<interface>>AtividadeCurricular]
+[Historico]-->[<<interface>>Estagio]
+[Historico]-->[<<interface>>Publicacoes]
+[Historico]-->[SituacaoENADE]
 
-[Componente Curricular Obrigatoria]-.-^[<<interface>>Componente Curricular]
-[Componente Curricular Opcional]-.-^[<<interface>>Componente Curricular]
+[<<interface>>Componente Curricular]^-.-[Componente Curricular Obrigatoria]
 
-[Estagio Obrigatorio]-.-^[<<interface>>Estagio]
-[Estagio Nao Obrigatorio]-.-^[<<interface>>Estagio]
+[<<interface>>Componente Curricular]^-.-[Componente Curricular Opcional]
 
-[ResumoExpandido]-.-^[<<interface>>Publicacoes]
-[ArtigoCientifico]-.-^[<<interface>>Publicacoes]
+[<<interface>>Estagio]^-.-[Estagio Obrigatorio]
 
-[ServicoComunitario]-.-^[<<interface>>AtividadeCurricular]
-[PraticaExtensionista]-.-^[<<interface>>AtividadeCurricular]
-[AtividadeComplementar]-.-^[<<interface>>AtividadeCurricular]
+[<<interface>>Estagio]^-.-[Estagio Nao Obrigatorio]
 
-[Historico Computacao]-->[<<interface>>Componente Curricular]
-[Historico Computacao]-->[<<interface>>AtividadeCurricular]
-[Historico Computacao]-->[<<interface>>Estagio]
-[Historico Computacao]-->[<<interface>>Publicacoes]
-[Historico Computacao]-->[SituacaoENADE]
+[<<interface>>Publicacoes]^-.-[ResumoExpandido]
+
+[<<interface>>Publicacoes]^-.-[ArtigoCientifico]
+
+[<<interface>>AtividadeCurricular]^-.-[ServicoComunitario]
+
+[<<interface>>AtividadeCurricular]^-.-[PraticaExtensionista]
+
+[<<interface>>AtividadeCurricular]^-.-[AtividadeComplementar]
