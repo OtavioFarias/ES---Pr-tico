@@ -1,2 +1,52 @@
-11,31
-10,42
+Cód.,Componentes Curriculares,CT,CP,EaD Prática,Ext,PR
+1,Elementos de Matemática,4,0,0,0,0
+2,Química Geral Básica,2,2,0,0,0
+3,Elementos de Física,1,1,0,0,0
+4,Fundamentos de Hardware e Software,3,1,2,0,0
+5,Introdução à Engenharia de Computação,1,1,2,0,0
+6,Gestão de Projetos I,2,0,0,0,0
+7,Cálculo A,4,0,0,0,0
+8,Álgebra Linear e Geometria Analítica,4,0,0,0,0
+9,Produção Acadêmico-Científica,2,0,0,0,0
+10,Algoritmos e Técnicas de Programação,2,2,2,0,4
+11,Projeto Digital I,2,2,2,0,4
+12,Projeto Integrador I,0,2,0,2,5
+13,Cálculo B,4,0,0,0,7
+14,Estatística Básica,2,0,0,0,0
+15,Fundamentos de Física A,3,1,2,0,0
+16,Algoritmos e Estruturas de Dados,2,2,2,0,10
+17,Arquitetura e Organização de Computadores,3,1,2,0,4
+18,Projeto Integrador II,0,2,0,2,"11,12"
+19,Equações Diferenciais Ordinárias,4,0,0,0,13
+20,Probabilidade,2,0,0,0,0
+21,Fundamentos de Física B,1,1,3,0,"13,15"
+22,Algoritmos e Classificação de Dados,2,2,2,0,16
+23,Projeto Digital II,2,2,2,0,11
+24,Projeto Integrador III,0,2,0,2,18
+25,Circuitos Elétricos I,3,1,0,0,"8,21"
+26,Mecânica Geral,2,0,0,0,"8,15"
+27,Teoria da Computação,2,2,0,0,22
+28,Sistemas Operacionais,2,2,2,0,"17,22"
+29,Engenharia de Software,3,1,1,0,22
+30,Projeto Integrador IV,0,2,0,2,24
+31,Eletricidade Aplicada,2,0,0,0,21
+32,Ciências do Ambiente,2,0,0,0,2
+33,Problemas e Algoritmos,3,1,2,0,"16,2"
+34,Sistemas Embarcados,2,2,2,0,"23,28,29"
+35,Fundamentos e Avaliação de Redes de Computadores,2,2,2,0,28
+36,Projeto Integrador V,1,2,2,0,30
+37,Fenômenos de Transporte A,2,1,0,0,"19,21"
+38,Introdução à Economia para Engenheiros,2,0,0,0,0
+39,Práticas Extensionistas I,0,0,0,8,"27,28,29,30"
+40,Projeto de Pesquisa em Engenharia de Computação,2,1,0,0,"9,14,20,25,28"
+41,Ciência de Dados,1,2,1,0,"16,2"
+42,Inteligência Artificial,1,2,1,0,"13,14,20,22,33"
+44,Fundamentos de Ciência dos Materiais,1,0,1,0,0
+45,Práticas Extensionistas II,0,0,0,12,39
+46,Projeto Final de Curso I,0,0,6,0,40
+48,Empreendedorismo e Inovação,2,0,2,0,0
+49,Projeto Final de Curso II,0,0,6,0,45
+50,UNIPAMPA Cidadã,0,0,0,4,0
+51,Estágio Curricular Supervisionado,0,0,0,12,0
+52,CCCG,6,0,6,0,0
+53,ACG,0,0,5,0,0

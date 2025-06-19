@@ -32,11 +32,10 @@ public class ArtigoCientifico implements Publicacoes{
 	}
 	@Override
 	public String toString() {
-		return "ArtigoCientifico [titulo=" + titulo + ", veiculo=" + veiculo + ", semestre=" + semestre
-				+ ", getTitulo()=" + getTitulo() + ", getVeiculo()=" + getVeiculo() + ", getSemestre()=" + getSemestre()
-				+ "]";
+		return "ArtigoCientifico [titulo=" + titulo + ", veiculo=" + veiculo + "]";
 	}
-	private String titulo;
+
+		private String titulo;
     private String veiculo;
     private int semestre;
 }

@@ -19,8 +19,7 @@ public class ServicoComunitario implements AtividadeCurricular{
 	}
 	@Override
 	public String toString() {
-		return "ServicoComunitario [atividade=" + atividade + ", horas=" + horas + ", getAtividade()=" + getAtividade()
-				+ ", getHoras()=" + getHoras() + "]";
+		return "ServicoComunitario [atividade=" + atividade + ", horas=" + horas + "]";
 	}
 	private String atividade;
     private int horas;

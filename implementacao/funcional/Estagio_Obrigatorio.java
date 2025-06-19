@@ -11,8 +11,7 @@ public class Estagio_Obrigatorio implements Estagio{
 	}
 	@Override
 	public String toString() {
-		return "Estagio [empresa=" + empresa + ", horas=" + horas + ", tipo=" + tipo + ", getEmpresa()=" + getEmpresa()
-				+ ", getHoras()=" + getHoras() + ", getTipo()=" + getTipo() + "]";
+		return "Estagio [empresa=" + empresa + ", horas=" + horas + ", tipo=" + tipo + "]";
 	}
 	public String getEmpresa() {
 		return empresa;

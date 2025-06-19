@@ -22,13 +22,13 @@
 [ArtigoCientifico|titulo:string;veiculo:string;semestre:int|validar():bool]
 
 // === RELAÇÕES ===
-[Discente]--<>[<<interface>>Historico]
+[Discente]--<>[Historico]
 
-[Historico]-->[<<interface>>Componente Curricular]
-[Historico]-->[<<interface>>AtividadeCurricular]
-[Historico]-->[<<interface>>Estagio]
-[Historico]-->[<<interface>>Publicacoes]
-[Historico]-->[SituacaoENADE]
+[Historico]--<>[<<interface>>Componente Curricular]
+[Historico]--<>[<<interface>>AtividadeCurricular]
+[Historico]--<>[<<interface>>Estagio]
+[Historico]--<>[<<interface>>Publicacoes]
+[Historico]--<>[SituacaoENADE]
 
 [<<interface>>Componente Curricular]^-.-[Componente Curricular Obrigatoria]
 

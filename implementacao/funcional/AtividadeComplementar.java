@@ -8,8 +8,7 @@ public class AtividadeComplementar implements AtividadeCurricular{
 	}
 	@Override
 	public String toString() {
-		return "AtividadeComplementar [descricao=" + descricao + ", horas=" + horas + ", getDescricao()="
-				+ getDescricao() + ", getHoras()=" + getHoras() + "]";
+		return "AtividadeComplementar [descricao=" + descricao + ", horas=" + horas + "]";
 	}
 	public String getDescricao() {
 		return descricao;

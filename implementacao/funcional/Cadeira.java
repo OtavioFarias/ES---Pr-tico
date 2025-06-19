@@ -1,7 +1,0 @@
-package classes;
-
-interface Cadeira{
-
-
-
-}

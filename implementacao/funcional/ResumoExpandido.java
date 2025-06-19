@@ -11,8 +11,7 @@ public class ResumoExpandido implements Publicacoes{
 	}
 	@Override
 	public String toString() {
-		return "ResumoExpandido [titulo=" + titulo + ", evento=" + evento + ", semestre=" + semestre + ", getTitulo()="
-				+ getTitulo() + ", getEvento()=" + getEvento() + ", getSemestre()=" + getSemestre() + "]";
+		return "ResumoExpandido [titulo=" + titulo + ", evento=" + evento + ", semestre=" + semestre + "]";
 	}
 	public String getTitulo() {
 		return titulo;
