@@ -1,6 +1,0 @@
-package classes;
-
-interface Historico {
-
-
-  }
