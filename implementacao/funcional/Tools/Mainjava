@@ -48,7 +48,7 @@ public class Main{
                     String matricula1 = scanner.nextLine();
 
                     Discente discente = new Discente(nome, matricula1);
-                    HistoricoComputacao historico = discente.getHistorico();
+                    Historico historico = discente.getHistorico();
 
                     int choose1 = 1;
 
@@ -94,14 +94,13 @@ public class Main{
                             System.out.print("ID da cadeira obrigatória: ");
                             int idObrigatoria = scanner.nextInt();
                             scanner.nextLine();
-                            historico.cadastrarCadeiraObrigatoria(idObrigatoria);
                             break;
 
                         case 4:
                             System.out.print("ID da cadeira opcional: ");
                             int idOpcional = scanner.nextInt();
                             scanner.nextLine();
-                            historico.cadastrarCadeiraOpcional(idOpcional);
+                            historico.cadastrarIDCadeiraOpcional(idOpcional);
                             break;
 
                         case 5:
@@ -199,7 +198,7 @@ public class Main{
                     choose2 = scanner.nextInt();
                     scanner.nextLine();
 
-                    HistoricoComputacao historico1 = discenteAtual.getHistorico();
+                    Historico historico1 = discenteAtual.getHistorico();
 
 
                     switch (choose2) {

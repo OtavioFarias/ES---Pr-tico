@@ -4,15 +4,15 @@ import classes.Historico;
 public class Discente {
     private String nome;
     private String matricula;
-    private HistoricoComputacao historico = new HistoricoComputacao();
+    private Historico historico = new Historico();
 
     public Discente(String nome, String matricula) {
 		this.nome = nome;
 		this.matricula = matricula;
-		this.historico = new HistoricoComputacao();
+		this.historico = new Historico();
 	}
 
-	public Discente(String nome, String matricula, HistoricoComputacao historico) {
+	public Discente(String nome, String matricula, Historico historico) {
 		this.nome = nome;
 		this.matricula = matricula;
 		this.historico = historico;
@@ -31,7 +31,7 @@ public class Discente {
 		this.matricula = matricula;
 	}
 
-	public HistoricoComputacao getHistorico(){
+	public Historico getHistorico(){
 
 		return historico;
 

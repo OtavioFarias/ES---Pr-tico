@@ -23,6 +23,14 @@ public class ComponenteCurricularObrigatorio implements ComponenteCurricular{
         this.semestre = semestre;
     }
 
+    public ComponenteCurricularObrigatorio (int id, String nome, int creditos, List<Integer> prerequisitos) {
+        super();
+        this.id = id;
+        this.nome = nome;
+        this.creditos = creditos;
+        this.prerequisitos = prerequisitos;
+    }
+
     public ComponenteCurricularObrigatorio (int id) {
         super();
         this.id = id;

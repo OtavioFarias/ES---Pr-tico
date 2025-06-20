@@ -85,11 +85,11 @@ public class Historico {
 
 		}
 
-		public List<Integer> getComponentesIDCurricularesObrigatorios() {
+		public List<Integer> getIDComponentesCurricularesObrigatorios() {
 		  	return idComponentesCurricularesObrigatorios;
 		}
 
-		 public List<Integer> getComponentesIDCurricularesNaoObrigatorios() {
+		 public List<Integer> getIDComponentesCurricularesNaoObrigatorios() {
 		      return idComponentesCurricularesNaoObrigatorios;
 		}
 

@@ -13,7 +13,7 @@ public class ArqDiscente {
     public static Discente importarDiscenteDeCSV(String matricula) {
         String caminho = "Discentes/" + matricula + ".csv";
         String nomeAluno = "";
-        HistoricoComputacao historico = new HistoricoComputacao();
+        Historico historico = new Historico();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(caminho))) {
             String linha;
@@ -58,14 +58,14 @@ public class ArqDiscente {
                             historico.cadastrarAtividadeComplementar(descAC, horasAC);
                             break;
 
-                        case "Cadeira Obrigatória":
+                        case "Componente Curricular Obrigatorio":
                             int idCO = Integer.parseInt(detalhesAcumulados.replace("ID: ", "").trim());
-                            historico.cadastrarCadeiraObrigatoria(idCO);
+                            historico.cadastrarIDComponenteCurricularObrigatorio(idCO);
                             break;
 
-                        case "Cadeira Opcional":
+                        case "Componente Curricular Não Obrigatorio":
                             int idOp = Integer.parseInt(detalhesAcumulados.replace("ID: ", "").trim());
-                            historico.cadastrarCadeiraOpcional(idOp);
+                            historico.cadastrarIDComponenteCurricularNaoObrigatorio(idOp);
                             break;
 
                         case "Estágio Obrigatório":
@@ -135,7 +135,7 @@ public class ArqDiscente {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
 
             String nome = discente.getNome();
-            HistoricoComputacao historico = discente.getHistorico();
+            Historico historico = discente.getHistorico();
 
             // Cabeçalho
             writer.write("Nome do Aluno,Tipo,Detalhes\n");
@@ -153,13 +153,13 @@ public class ArqDiscente {
             }
 
             // Cadeiras Obrigatórias
-            for (CadeiraObrigatoria co : historico.getCadeirasObrigatorias()) {
-                writer.write(String.format("%s,Cadeira Obrigatória,ID: %d\n", nome, co.getId()));
+            for (int co : historico.getIDComponentesCurricularesObrigatorios()) {
+                writer.write(String.format("%s,Componente Curricular Obrigatorio,ID: %d\n", co));
             }
 
             // Cadeiras Opcionais
-            for (CadeiraOpcional op : historico.getCadeirasOpcionais()) {
-                writer.write(String.format("%s,Cadeira Opcional,ID: %d\n", nome, op.getId()));
+            for (int op : historico.getIDComponentesCurricularesNaoObrigatorios()) {
+                writer.write(String.format("%s,Componente Curricular Não Obrigatorio,ID: %d\n", op));
             }
 
             // Estágios Obrigatórios
