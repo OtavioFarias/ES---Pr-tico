@@ -16,41 +16,55 @@ public class AcompanhamentoCurso {
 
 		}
 
-		/*
 		public double acompanharComponenteCurricularObrigatorio(){
 
-			ComponenteCurricularObrigatorio componente = historico.getComponenteCurricularObrigatorio();
-
-			List<AtividadesComplementares> componentes = historico.getAtividadeComplementar();
+			List<Integer> componentesId = historico.getIDComponentesCurricularesObrigatorios();
+			List<ComponenteCurricularObrigatorio> componentes = modelo.getComponentesCurricularesObrigatorios();
 
 			int n = 0;
 
-			for(ArtigoCientifico ar : atividades){
+			for(Integer ar : componentesId){
 
-				n += ar.getHoras();
+				for(ComponenteCurricularObrigatorio comp : componentes){
+
+					if(ar == comp.getId()){
+
+						n += comp.getCreditos();
+
+					}
+
+				}
 
 			}
 
-			return n / modelo.ComponentesCurricularObrigatorio;
+			return n / modelo.QuantidadeComponenteCurricularObrigatorio;
 
 		}
 
-		/*
     public double acompanharComponentesCurricularesComplementares(){
 
-			List<AtividadesComplementares> atividades = historico.getAtividadeComplementar();
+			List<Integer> componentesId = historico.getIDComponentesCurricularesNaoObrigatorios();
+			List<ComponenteCurricularNaoObrigatorio> componentes = modelo.getComponentesCurricularesNaoObrigatorios();
 
 			int n = 0;
 
-			for(ArtigoCientifico ar : atividades){
+			for(Integer ar : componentesId){
 
-				n += ar.getHoras();
+				for(ComponenteCurricularNaoObrigatorio comp : componentes){
+
+					if(ar == comp.getId()){
+
+						n += comp.getCreditos();
+
+					}
+
+				}
 
 			}
 
-			return n / modelo.ComponentesCurricularObrigatorio;
+			return n / modelo.QuantidadeComponentesCurricularesComplementares;
 
-    }*/
+    }
 
     public double acompanharUnipampaCidada(){
 
