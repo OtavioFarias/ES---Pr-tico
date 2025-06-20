@@ -1,3 +1,0 @@
-package classes;
-
-interface AtividadeCurricular{}
