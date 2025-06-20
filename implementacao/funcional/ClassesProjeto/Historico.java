@@ -6,10 +6,10 @@ import classes.*;
 
 public class Historico {
 
-    private List<ComponenteCurricularObrigatorio> componentesCurricularesObrigatorios = new ArrayList<>();
+    private List<Integer> idComponentesCurricularesObrigatorios = new ArrayList<>();
     private List<Estagio_Obrigatorio> estagioObrigatorio = new ArrayList<>();
     private List<Estagio_Nao_Obrigatorio> estagioNaoObrigatorio = new ArrayList<>();
-    private List<ComponenteCurricularNaoObrigatorio> componentesCurricularesNaoObrigatorios = new ArrayList<>();
+    private List<Integer> idComponentesCurricularesNaoObrigatorios = new ArrayList<>();
     private List<ServicoComunitario> servicoComunitario = new ArrayList<>();
 	  private List<PraticaExtensionista> praticasExtensionistas = new ArrayList<>();
     private List<AtividadeComplementar> atividadesComplementares = new ArrayList<>();
@@ -22,7 +22,7 @@ public class Historico {
 		this.situacaoENADE = false;
 	}
 
-	public void cadastrarArtigo(String titulo, String veiculo){
+		public void cadastrarArtigo(String titulo, String veiculo){
 
         artigo.add(new ArtigoCientifico(titulo, veiculo));
 
@@ -31,18 +31,6 @@ public class Historico {
     public void cadastrarAtividadeComplementar(String descricao, int horas){
 
 			atividadesComplementares.add(new AtividadeComplementar(descricao, horas));
-
-    }
-
-    public void cadastrarComponenteCurricularNaoObrigatorio(int id){
-
-			componentesCurricularesNaoObrigatorios.add(new ComponenteCurricularNaoObrigatorio(id));
-
-    }
-
-    public void cadastrarComponenteCurricular(int id){
-
-			componentesCurricularesObrigatorios.add(new ComponenteCurricularObrigatorio(id));
 
     }
 
@@ -85,9 +73,25 @@ public class Historico {
 
     }
 
-    public List<ComponenteCurricularObrigatorio> getComponentesCurricularesObrigatorios() {
-    	return componentesCurricularesObrigatorios;
-    }
+		public void cadastrarIDComponenteCurricularNaoObrigatorio(int id){
+
+			idComponentesCurricularesNaoObrigatorios.add(id);
+
+		}
+
+		public void cadastrarIDComponenteCurricularObrigatorio(int id){
+
+				idComponentesCurricularesObrigatorios.add(id);
+
+		}
+
+		public List<Integer> getComponentesIDCurricularesObrigatorios() {
+		  	return idComponentesCurricularesObrigatorios;
+		}
+
+		 public List<Integer> getComponentesIDCurricularesNaoObrigatorios() {
+		      return idComponentesCurricularesNaoObrigatorios;
+		}
 
     public List<Estagio_Nao_Obrigatorio> getEstagioNaoObrigatorio() {
         return estagioNaoObrigatorio;
@@ -95,10 +99,6 @@ public class Historico {
 
     public List<Estagio_Obrigatorio> getEstagioObrigatorio() {
         return estagioObrigatorio;
-    }
-
-    public List<ComponenteCurricularNaoObrigatorio> getComponentesCurricularesNaoObrigatorios() {
-        return componentesCurricularesNaoObrigatorios;
     }
 
     public List<ServicoComunitario> getServicoComunitario() {
