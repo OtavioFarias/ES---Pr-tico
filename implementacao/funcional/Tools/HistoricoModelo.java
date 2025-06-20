@@ -11,12 +11,12 @@ public class HistoricoModelo {
 
     public final int QuantidadeComponenteCurricularObrigatorio = 231;
     public final int QuantidadeComponentesCurricularesComplementares = 12;
-    public final int QuantidadeUnipampaCidadâ = 4;
-    public final int QuantidadeEstágioObrigatório = 12;
-    public final int QuantidadePráticasExtensionistas = 20;
+    public final int QuantidadeUnipampaCidada = 4;
+    public final int QuantidadeEstagioObrigatorio = 12;
+    public final int QuantidadePraticasExtensionistas = 20;
     public final int QuantidadeAtividadesComplementares = 75;
-    public final int QuantidadeResumaexpandido = 2;
-    public final int QuantidadeArtigoCientífico = 1;
+    public final int QuantidadeResumoExpandido = 2;
+    public final int QuantidadeArtigoCientifico = 1;
 
     private List<ComponenteCurricularObrigatorio> componentesCurricularesObrigatorios = new ArrayList<>();
     private List<ComponenteCurricularNaoObrigatorio> componentesCurricularesNaoObrigatorios = new ArrayList<>();
