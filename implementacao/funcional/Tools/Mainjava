@@ -27,7 +27,7 @@ public class Main{
                     matricula = scanner.nextLine();
 
                     discenteAtual = ArqDiscente.importarDiscenteDeCSV(matricula);
-
+e
                     if(discenteAtual == null){
 
                         System.out.println("Discente não encontrado");

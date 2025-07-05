@@ -2,6 +2,7 @@
 package interfaceGrafica;
 
 import classes.*;
+import tools.ArqDiscente;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -105,6 +106,7 @@ public class TelaCadastrarDiscente {
             if (onFinish != null) {
                 onFinish.accept(discente);
             }
+            ArqDiscente.exportarHistoricoParaCSV(discente);
         });
 
         frame.setVisible(true);

@@ -20,7 +20,7 @@ public class TelaInicial {
 
     private Discente discente;
     private JLabel lblStatusDiscente;
-    private JButton btnAcompanhar;
+    private JButton btnAcompanhar, btnAdicionar;
 
     public void show() {
         JFrame frame = new JFrame("Sistema de Acompanhamento de Curso");
@@ -43,6 +43,7 @@ public class TelaInicial {
         JButton btnBuscar = criarBotaoPrincipal("Buscar Discente", "icones/buscar.png");
         JButton btnCadastrar = criarBotaoPrincipal("Cadastrar Novo Discente", "icones/cadastrar.png");
         btnAcompanhar = criarBotaoPrincipal("Acompanhar Curso", "icones/acompanhar.png");
+        btnAdicionar = criarBotaoPrincipal("Adicionar Informações", "icones/adicionar.png");
         JButton btnSair = criarBotaoPrincipal("Sair do Sistema", "icones/sair.png");
 
         btnAcompanhar.setEnabled(false); // Botão começa desabilitado
@@ -50,6 +51,7 @@ public class TelaInicial {
 
         painelBotoes.add(btnBuscar);
         painelBotoes.add(btnCadastrar);
+         painelBotoes.add(btnAdicionar);
         painelBotoes.add(btnAcompanhar);
         painelBotoes.add(btnSair);
         frame.add(painelBotoes, BorderLayout.CENTER);
@@ -63,6 +65,21 @@ public class TelaInicial {
         lblStatusDiscente.setForeground(COR_TEXTO_TITULO);
         painelStatus.add(lblStatusDiscente);
         frame.add(painelStatus, BorderLayout.SOUTH);
+
+				// Adicionar informações
+        btnAdicionar.addActionListener(e -> {
+            new TelaAdicionarInformacoes().show(d -> {
+                if (d != null) {
+                    this.discente = d;
+                    // Atualiza a barra de status com o nome do novo discente
+                    lblStatusDiscente.setText("Discente carregado: " + d.getNome());
+                    // Habilita o botão para acompanhar o curso
+                    btnAcompanhar.setEnabled(true);
+                    btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO); // Restaura a cor
+                    JOptionPane.showMessageDialog(frame, "Informações adicionadas com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
+          });
 
         // --- AÇÕES DOS BOTÕES ---
         btnBuscar.addActionListener(e -> new TelaBuscarDiscente().show(d -> {
