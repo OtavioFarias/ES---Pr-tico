@@ -2,7 +2,6 @@
 package interfaceGrafica;
 
 import classes.*;
-import tools.ArqDiscente;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -106,7 +105,6 @@ public class TelaCadastrarDiscente {
             if (onFinish != null) {
                 onFinish.accept(discente);
             }
-            ArqDiscente.exportarHistoricoParaCSV(discente);
         });
 
         frame.setVisible(true);
@@ -224,6 +222,16 @@ public class TelaCadastrarDiscente {
 
         // A checagem de nulo no primeiro case evita que esta mensagem apareça se o usuário cancelar.
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
+    }
+
+
+    public void showSomenteHistorico(Discente discenteExistente) {
+        if (discenteExistente == null) {
+            JOptionPane.showMessageDialog(null, "Nenhum discente carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        this.discente = discenteExistente;
+        mostrarMenuCadastro();
     }
 
     /**

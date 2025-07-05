@@ -20,7 +20,7 @@ public class TelaInicial {
 
     private Discente discente;
     private JLabel lblStatusDiscente;
-    private JButton btnAcompanhar, btnAdicionar;
+    private JButton btnAcompanhar;
 
     public void show() {
         JFrame frame = new JFrame("Sistema de Acompanhamento de Curso");
@@ -36,24 +36,45 @@ public class TelaInicial {
         lblTitulo.setBorder(new EmptyBorder(20, 10, 10, 10));
         frame.add(lblTitulo, BorderLayout.NORTH);
 
-        JPanel painelBotoes = new JPanel(new GridLayout(4, 1, 15, 15));
+        JPanel painelBotoes = new JPanel(new GridLayout(5, 1, 15, 15)); // aumentei para 5 linhas
         painelBotoes.setBackground(COR_FUNDO);
         painelBotoes.setBorder(new EmptyBorder(15, 40, 15, 40));
 
         JButton btnBuscar = criarBotaoPrincipal("Buscar Discente", "icones/buscar.png");
         JButton btnCadastrar = criarBotaoPrincipal("Cadastrar Novo Discente", "icones/cadastrar.png");
         btnAcompanhar = criarBotaoPrincipal("Acompanhar Curso", "icones/acompanhar.png");
-        btnAdicionar = criarBotaoPrincipal("Adicionar Informações", "icones/adicionar.png");
-        JButton btnSair = criarBotaoPrincipal("Sair do Sistema", "icones/sair.png");
+        JButton btnAdicionarHistorico = criarBotaoPrincipal("Adicionar ao Histórico", "icones/historico.png");
+
+
+        // Botão Sair customizado (sem hover)
+        JButton btnSair = new JButton("Sair do Sistema");
+        btnSair.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnSair.setBackground(Color.RED);
+        btnSair.setForeground(Color.WHITE);
+        btnSair.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnSair.setFocusPainted(false);
+        btnSair.setBorderPainted(false);
+        btnSair.setIconTextGap(15);
+        btnSair.setPreferredSize(new Dimension(200, 60));
+
+        try {
+            ImageIcon icon = new ImageIcon(new ImageIcon(getClass().getResource("icones/sair.png")).getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+            btnSair.setIcon(icon);
+        } catch (Exception e) {
+            System.err.println("Ícone não encontrado: icones/sair.png");
+        }
+
+
 
         btnAcompanhar.setEnabled(false); // Botão começa desabilitado
         btnAcompanhar.setBackground(Color.LIGHT_GRAY); // Cor para botão desabilitado
 
         painelBotoes.add(btnBuscar);
         painelBotoes.add(btnCadastrar);
-         painelBotoes.add(btnAdicionar);
         painelBotoes.add(btnAcompanhar);
-        painelBotoes.add(btnSair);
+        painelBotoes.add(btnAdicionarHistorico); // novo botão
+        painelBotoes.add(btnSair); // último botão
+
         frame.add(painelBotoes, BorderLayout.CENTER);
 
         JPanel painelStatus = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -66,21 +87,6 @@ public class TelaInicial {
         painelStatus.add(lblStatusDiscente);
         frame.add(painelStatus, BorderLayout.SOUTH);
 
-				// Adicionar informações
-        btnAdicionar.addActionListener(e -> {
-            new TelaAdicionarInformacoes().show(d -> {
-                if (d != null) {
-                    this.discente = d;
-                    // Atualiza a barra de status com o nome do novo discente
-                    lblStatusDiscente.setText("Discente carregado: " + d.getNome());
-                    // Habilita o botão para acompanhar o curso
-                    btnAcompanhar.setEnabled(true);
-                    btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO); // Restaura a cor
-                    JOptionPane.showMessageDialog(frame, "Informações adicionadas com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                }
-            });
-          });
-
         // --- AÇÕES DOS BOTÕES ---
         btnBuscar.addActionListener(e -> new TelaBuscarDiscente().show(d -> {
             if (d != null) {
@@ -92,22 +98,30 @@ public class TelaInicial {
             }
         }));
 
-        // ================================================================
-        // AQUI ESTÁ A FUNCIONALIDADE DO BOTÃO CADASTRAR RESTAURADA
-        // ================================================================
         btnCadastrar.addActionListener(e -> {
-            // Chama a sua TelaCadastrarDiscente e espera o novo discente no callback
             new TelaCadastrarDiscente().show(d -> {
                 if (d != null) {
                     this.discente = d;
-                    // Atualiza a barra de status com o nome do novo discente
                     lblStatusDiscente.setText("Discente carregado: " + d.getNome());
-                    // Habilita o botão para acompanhar o curso
+
                     btnAcompanhar.setEnabled(true);
-                    btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO); // Restaura a cor
+                    btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO);
+
+                    btnAdicionarHistorico.setEnabled(true);
+                    btnAdicionarHistorico.setBackground(COR_BOTAO_PRIMARIO);
+
                     JOptionPane.showMessageDialog(frame, "Discente " + d.getNome() + " cadastrado e carregado!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 }
+
             });
+        });
+
+        btnAdicionarHistorico.addActionListener(e -> {
+            if (discente != null) {
+                new TelaCadastrarDiscente().showSomenteHistorico(discente);
+            } else {
+                JOptionPane.showMessageDialog(frame, "Nenhum discente carregado. Use o botão 'Buscar Discente' primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
         });
 
         btnAcompanhar.addActionListener(e -> {
@@ -145,6 +159,7 @@ public class TelaInicial {
                     botao.setBackground(COR_BOTAO_PRIMARIO_HOVER);
                 }
             }
+
             public void mouseExited(MouseEvent evt) {
                 if (botao.isEnabled()) {
                     botao.setBackground(COR_BOTAO_PRIMARIO);
