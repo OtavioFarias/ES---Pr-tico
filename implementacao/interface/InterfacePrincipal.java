@@ -1,6 +1,6 @@
-package interfaceGrafica;
+package classes.interfaceGrafica;
 
-import interfaceGrafica.*;
+import classes.interfaceGrafica.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -1,9 +1,9 @@
-package tools;
+package classes.tools;
 
 import java.util.ArrayList;
 import java.util.List;
-import classes.*;
-import tools.*;
+import classes.atributos.*;
+import classes.tools.*;
 
 public class AcompanhamentoCurso {
 

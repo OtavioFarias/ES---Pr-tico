@@ -1,7 +1,7 @@
 // TelaAcompanharCurso.java
-package interfaceGrafica;
+package classes.interfaceGrafica;
 
-import classes.*;
+import classes.atributos.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

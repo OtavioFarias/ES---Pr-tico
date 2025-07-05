@@ -1,8 +1,8 @@
 // TelaBuscarDiscente.java
-package interfaceGrafica;
+package classes.interfaceGrafica;
 
-import tools.ArqDiscente;
-import classes.Discente;
+import classes.tools.ArqDiscente;
+import classes.atributos.Discente;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

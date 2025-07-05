@@ -1,8 +1,8 @@
 // TelaCadastrarDiscente.java
 package classes.interfaceGrafica;
 
-import classes.*;
-import tools.ArqDiscente;
+import classes.atributos.*;
+import classes.tools.ArqDiscente;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
