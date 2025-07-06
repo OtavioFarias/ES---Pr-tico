@@ -3,7 +3,7 @@ package classes.atributos;
 public class PraticaExtensionista implements AtividadeCurricular{
     private String projeto;
     private int creditos;
-	public PraticaExtensionista(String projeto, String papel, int creditos) {
+	public PraticaExtensionista(String projeto, int creditos) {
 		super();
 		this.projeto = projeto;
 		this.creditos = creditos;

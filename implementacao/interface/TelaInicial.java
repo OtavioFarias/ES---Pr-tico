@@ -87,6 +87,7 @@ public class TelaInicial {
         painelStatus.add(lblStatusDiscente);
         frame.add(painelStatus, BorderLayout.SOUTH);
 
+
         // --- AÇÕES DOS BOTÕES ---
         btnBuscar.addActionListener(e -> new TelaBuscarDiscente().show(d -> {
             if (d != null) {
@@ -115,6 +116,7 @@ public class TelaInicial {
 
             });
         });
+
 
         btnAdicionarHistorico.addActionListener(e -> {
             if (discente != null) {

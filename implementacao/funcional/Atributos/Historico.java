@@ -47,14 +47,14 @@ public class Historico {
 
     public void cadastrarPraticaExtensionista(String atividade, int horas){
 
-			servicoComunitario.add(new ServicoComunitario(atividade, horas));
+			praticasExtensionistas.add(new PraticaExtensionista(atividade, horas));
 
     }
 
     public void cadastrarResumoExpandido(String projeto, String papel, int creditos){
 
 
-			praticasExtensionistas.add(new PraticaExtensionista(projeto, papel, creditos));
+			resumos.add(new ResumoExpandido(projeto, papel, creditos));
 
 
     }
@@ -62,7 +62,7 @@ public class Historico {
     public void cadastrarServicoComunitario(String descricao, int horas){
 
 
-			atividadesComplementares.add(new AtividadeComplementar(descricao, horas));
+			servicoComunitario.add(new ServicoComunitario(descricao, horas));
 
     }
 

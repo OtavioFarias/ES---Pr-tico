@@ -4,6 +4,7 @@ public class Estagio_Nao_Obrigatorio implements Estagio{
     private String empresa;
     private int horas;
     private String tipo;
+
 	public Estagio_Nao_Obrigatorio(String empresa, int horas, String tipo) {
 		super();
 		this.empresa = empresa;

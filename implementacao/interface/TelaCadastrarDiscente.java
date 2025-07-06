@@ -135,8 +135,8 @@ public class TelaCadastrarDiscente {
         painelBotoes.setBorder(new EmptyBorder(15, 15, 15, 15));
 
         String[] opcoes = {
-                "Cadastrar Artigo", "Cadastrar Atividade Complementar", "Cadastrar Cadeira Obrigatória",
-                "Cadastrar Cadeira Opcional", "Cadastrar Estágio Obrigatório", "Cadastrar Estágio Não Obrigatório",
+                "Cadastrar Artigo", "Cadastrar Atividade Complementar", "Cadastrar Componente Curricular Obrigatório",
+                "Cadastrar Componente Curricular Não Obrigatório", "Cadastrar Estágio Obrigatório", "Cadastrar Estágio Não Obrigatório",
                 "Cadastrar Prática Extensionista", "Cadastrar Resumo Expandido", "Cadastrar Serviço Comunitário",
                 "Cadastrar ENADE"
         };
@@ -173,52 +173,62 @@ public class TelaCadastrarDiscente {
                 String veiculo = JOptionPane.showInputDialog("Veículo de publicação:");
                 if (titulo == null || veiculo == null) return; // Checagem se o usuário cancelou
                 discente.getHistorico().cadastrarArtigo(titulo, veiculo);
+                System.out.println("1");
             }
             // Adicione checagens de 'null' para os outros JOptionPanes também se desejar
             case 2 -> {
                 String desc = JOptionPane.showInputDialog("Descrição da atividade:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarAtividadeComplementar(desc, horas);
+                System.out.println("2");
             }
             case 3 -> {
-                int id = Integer.parseInt(JOptionPane.showInputDialog("ID da cadeira obrigatória:"));
+                int id = Integer.parseInt(JOptionPane.showInputDialog("ID do Componente Curricular Obrigatório:"));
                 discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
+                System.out.println("3");
             }
             case 4 -> {
-                int id = Integer.parseInt(JOptionPane.showInputDialog("ID da cadeira opcional:"));
-                discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
+                int id = Integer.parseInt(JOptionPane.showInputDialog("ID do Componente Curricular Não Obrigatório:"));
+                discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(id);
+                System.out.println("4");
             }
             case 5 -> {
                 String empresa = JOptionPane.showInputDialog("Empresa:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 String tipo = JOptionPane.showInputDialog("Tipo:");
                 discente.getHistorico().cadastrarEstagioObrigatorio(empresa, horas, tipo);
+                System.out.println("5");
             }
             case 6 -> {
                 String empresa = JOptionPane.showInputDialog("Empresa:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 String tipo = JOptionPane.showInputDialog("Tipo:");
                 discente.getHistorico().cadastrarEstagioNaoObrigatorio(empresa, horas, tipo);
+                System.out.println("6");
             }
             case 7 -> {
                 String atividade = JOptionPane.showInputDialog("Atividade:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarPraticaExtensionista(atividade, horas);
+                System.out.println("7");
             }
             case 8 -> {
                 String projeto = JOptionPane.showInputDialog("Projeto:");
                 String papel = JOptionPane.showInputDialog("Papel:");
                 int creditos = Integer.parseInt(JOptionPane.showInputDialog("Créditos:"));
                 discente.getHistorico().cadastrarResumoExpandido(projeto, papel, creditos);
+                System.out.println("8");
             }
             case 9 -> {
                 String desc = JOptionPane.showInputDialog("Descrição do serviço:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarServicoComunitario(desc, horas);
+                System.out.println("9");
             }
             case 10 -> {
                 int confirm = JOptionPane.showConfirmDialog(null, "Situação ENADE regular?");
                 discente.getHistorico().cadastrarENADE(confirm == JOptionPane.YES_OPTION);
+                System.out.println("10");
             }
             default -> JOptionPane.showMessageDialog(null, "Opção inválida.");
         }
