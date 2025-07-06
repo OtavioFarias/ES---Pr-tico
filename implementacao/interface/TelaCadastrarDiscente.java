@@ -31,6 +31,7 @@ public class TelaCadastrarDiscente {
     public void show(Consumer<Discente> onFinish) {
         JFrame frame = new JFrame("Cadastro de Discente - Etapa 1");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // Aumentei um pouco a altura para acomodar o novo layout vertical
         frame.setSize(450, 350);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
@@ -45,32 +46,40 @@ public class TelaCadastrarDiscente {
         painelFormulario.setBackground(COR_FUNDO);
         painelFormulario.setBorder(new EmptyBorder(10, 20, 10, 20));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.insets = new Insets(0, 5, 5, 5); // Espaçamento entre linhas
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
+        gbc.gridx = 0; // Todos os componentes estarão na mesma coluna (x=0)
 
+        // --- INÍCIO DA MUDANÇA DE LAYOUT ---
+
+        // Nome - Label
         JLabel lblNome = new JLabel("Nome completo:");
         lblNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST; // Alinha o texto à esquerda
+        gbc.gridy = 0; // Linha 0
         painelFormulario.add(lblNome, gbc);
 
+        // Nome - Campo de Texto
         JTextField campoNome = new JTextField(20);
         campoNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.gridy = 1;
-        gbc.insets = new Insets(0, 5, 15, 5);
+        gbc.gridy = 1; // Linha 1 (abaixo do label)
+        gbc.insets = new Insets(0, 5, 15, 5); // Adiciona espaço extra abaixo do campo
         painelFormulario.add(campoNome, gbc);
 
+        // Matrícula - Label
         JLabel lblMatricula = new JLabel("Matrícula (10 dígitos):");
         lblMatricula.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.gridy = 2;
-        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridy = 2; // Linha 2
+        gbc.insets = new Insets(0, 5, 5, 5); // Reseta o espaço
         painelFormulario.add(lblMatricula, gbc);
 
+        // Matrícula - Campo de Texto
         JTextField campoMatricula = new JTextField(20);
         campoMatricula.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.gridy = 3;
+        gbc.gridy = 3; // Linha 3 (abaixo do label)
         painelFormulario.add(campoMatricula, gbc);
+
+        // --- FIM DA MUDANÇA DE LAYOUT ---
 
         frame.add(painelFormulario, BorderLayout.CENTER);
 
@@ -81,6 +90,7 @@ public class TelaCadastrarDiscente {
         painelAcao.add(botaoContinuar);
         frame.add(painelAcao, BorderLayout.SOUTH);
 
+        // --- AÇÃO ORIGINAL MANTIDA ---
         botaoContinuar.addActionListener((ActionEvent e) -> {
             String nome = campoNome.getText().trim();
             String matricula = campoMatricula.getText().trim();
@@ -91,19 +101,14 @@ public class TelaCadastrarDiscente {
             }
 
             discente = new Discente(nome, matricula);
-
-            // ✅ Corrigido: chamada movida para após criação do objeto
-            ArqDiscente.exportarHistoricoParaCSV(discente);
-
             frame.dispose();
             mostrarMenuCadastro();
             if (onFinish != null) {
+            		ArqDiscente.exportarHistoricoParaCSV(discente);
                 onFinish.accept(discente);
             }
         });
 
-        // ❌ Removida chamada incorreta fora do contexto (foi movida para o lugar certo acima)
-        // ArqDiscente.exportarHistoricoParaCSV(discente);
 
         frame.setVisible(true);
     }
@@ -218,6 +223,7 @@ public class TelaCadastrarDiscente {
             default -> JOptionPane.showMessageDialog(null, "Opção inválida.");
         }
 
+				ArqDiscente.exportarHistoricoParaCSV(discente);
         // A checagem de nulo no primeiro case evita que esta mensagem apareça se o usuário cancelar.
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
     }
