@@ -12,7 +12,7 @@ public class ResumoExpandido implements Publicacoes{
 	}
 	@Override
 	public String toString() {
-		return "ResumoExpandido [titulo=" + titulo + ", evento=" + evento + ", semestre=" + semestre + "]";
+		return "\nResumoExpandido \ntitulo=" + titulo + "\nevento=" + evento + "\nsemestre=" + semestre;
 	}
 	public String getTitulo() {
 		return titulo;
