@@ -2,6 +2,7 @@
 package classes.interfaceGrafica;
 
 import classes.atributos.*;
+import classes.tools.AcompanhamentoCurso;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -51,12 +52,12 @@ public class TelaAcompanharCurso {
         painelConteudoCentral.setBorder(new EmptyBorder(10, 25, 20, 25));
 
         String[] titulos = {
-                "Ver Artigos", "Ver Atividades Complementares", "Ver Cadeiras Obrigatórias", "Ver Cadeiras Opcionais",
+                "Resumo Completo", "Ver Artigos", "Ver Atividades Complementares", "Ver Cadeiras Obrigatórias", "Ver Cadeiras Opcionais",
                 "Ver Estágios Obrigatórios", "Ver Estágios Não Obrigatórios", "Ver Práticas Extensionistas",
                 "Ver Resumos Expandidos", "Ver Serviços Comunitários", "Ver Situação ENADE"
         };
         String[] cardNames = {
-                "ARTIGOS", "ATIVIDADES", "CADEIRAS_OBR", "CADEIRAS_OPC", "ESTAGIOS_OBR",
+                "RESUMO", "ARTIGOS", "ATIVIDADES", "CADEIRAS_OBR", "CADEIRAS_OPC", "ESTAGIOS_OBR",
                 "ESTAGIOS_NAO_OBR", "PRATICAS", "RESUMOS", "SERVICOS", "ENADE"
         };
 
@@ -131,26 +132,103 @@ public class TelaAcompanharCurso {
     }
 
     private String obterDadosFormatados(int opcao) {
-        StringBuilder mensagem = new StringBuilder();
-        Historico historico = discente.getHistorico();
-        switch (opcao) {
-            case 1 -> historico.getArtigo().forEach(a -> mensagem.append(a.toString()).append("\n\n"));
-            case 2 -> historico.getAtividadesComplementares().forEach(a -> mensagem.append(a.toString()).append("\n\n"));
-            case 3 -> historico.getIDComponentesCurricularesObrigatorios().forEach(c -> mensagem.append("ID do Componente: ").append(c).append("\n"));
-            case 4 -> historico.getIDComponentesCurricularesNaoObrigatorios().forEach(c -> mensagem.append("ID do Componente: ").append(c).append("\n"));
-            case 5 -> historico.getEstagioObrigatorio().forEach(e -> mensagem.append(e.toString()).append("\n\n"));
-            case 6 -> historico.getEstagioNaoObrigatorio().forEach(e -> mensagem.append(e.toString()).append("\n\n"));
-            case 7 -> historico.getPraticasExtensionistas().forEach(p -> mensagem.append(p.toString()).append("\n\n"));
-            case 8 -> historico.getResumos().forEach(r -> mensagem.append(r.toString()).append("\n\n"));
-            case 9 -> historico.getServicoComunitario().forEach(s -> mensagem.append(s.toString()).append("\n\n"));
-            case 10 -> mensagem.append("Situação: ").append(historico.getSituacaoENADE() ? "Regular" : "Irregular");
-        }
+				StringBuilder mensagem = new StringBuilder();
+				Historico historico = discente.getHistorico();
+				AcompanhamentoCurso acompanhamento = new AcompanhamentoCurso(historico);
+				double total = 0.0;
 
-        if (mensagem.length() == 0) {
-            return "Nenhum item cadastrado nesta categoria.";
-        }
-        return mensagem.toString();
-    }
+
+				switch (opcao) {
+				    case 2 -> {
+				        historico.getArtigo().forEach(a -> mensagem.append(a.toString()).append("\n\n"));
+				        total = acompanhamento.acompanharArtigoCientífico();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 3 -> {
+				        historico.getAtividadesComplementares().forEach(a -> mensagem.append(a.toString()).append("\n\n"));
+				        total = acompanhamento.acompanharAtividadesComplementares();
+				   			mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 4 -> {
+				        historico.getIDComponentesCurricularesObrigatorios().forEach(c -> mensagem.append("ID do Componente: ").append(c).append("\n"));
+				        //double total = AcompanhamentoCurso.acompanharCadeirasObrigatorias();
+				        //mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 5 -> {
+				        historico.getIDComponentesCurricularesNaoObrigatorios().forEach(c -> mensagem.append("ID do Componente: ").append(c).append("\n"));
+				        //double total = AcompanhamentoCurso.acompanharCadeirasOpcionais();
+				        //mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 6 -> {
+				        historico.getEstagioObrigatorio().forEach(e -> mensagem.append(e.toString()).append("\n\n"));
+				        total = acompanhamento.acompanharEstagioObrigatorio();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 7 -> {
+				        historico.getEstagioNaoObrigatorio().forEach(e -> mensagem.append(e.toString()).append("\n\n"));
+				        //double total = AcompanhamentoCurso.acompanharEstagiosNaoObrigatorios();
+
+				    }
+				    case 8 -> {
+				        historico.getPraticasExtensionistas().forEach(p -> mensagem.append(p.toString()).append("\n\n"));
+				        total = acompanhamento.acompanharPraticasExtensionistas();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 9 -> {
+				        historico.getResumos().forEach(r -> mensagem.append(r.toString()).append("\n\n"));
+				        total = acompanhamento.acompanharResumoExpandido();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 10 -> {
+				        historico.getServicoComunitario().forEach(s -> mensagem.append(s.toString()).append("\n\n"));
+				        total = acompanhamento.acompanharUnipampaCidada();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				    }
+				    case 11 -> mensagem.append("Situação: ").append(historico.getSituacaoENADE() ? "Regular" : "Irregular");
+				    // Novo case para exibir todos os acompanhamentos e o total geral
+				    case 1 -> {
+
+				        double totalCurso = acompanhamento.acompanharCurso();
+								mensagem.append("Percentual de Conclusão do Curso: ").append(String.format("%.2f", totalCurso)).append("%\n\n");
+
+				        double totalArtigos = acompanhamento.acompanharArtigoCientífico();
+				        mensagem.append("Artigos Científicos: ").append(String.format("%.2f", totalArtigos)).append("%\n");
+
+				        double totalAtividades = acompanhamento.acompanharAtividadesComplementares();
+				        mensagem.append("Atividades Complementares: ").append(String.format("%.2f", totalAtividades)).append("%\n");
+
+				        // Supondo que tenha métodos para obrigatórios e opcionais (se não tiver, pode remover)
+				        // double totalObrigatorios = acompanhamento.acompanharCadeirasObrigatorias();
+				        // mensagem.append("Cadeiras Obrigatórias: ").append(String.format("%.2f", totalObrigatorios)).append("%\n");
+
+				        // double totalOpcionais = acompanhamento.acompanharCadeirasOpcionais();
+				        // mensagem.append("Cadeiras Opcionais: ").append(String.format("%.2f", totalOpcionais)).append("%\n");
+
+				        double totalEstagiosObr = acompanhamento.acompanharEstagioObrigatorio();
+				        mensagem.append("Estágios Obrigatórios: ").append(String.format("%.2f", totalEstagiosObr)).append("%\n");
+
+				        // Se tiver método para estágios não obrigatórios:
+				        // double totalEstagiosNaoObr = acompanhamento.acompanharEstagiosNaoObrigatorios();
+				        // mensagem.append("Estágios Não Obrigatórios: ").append(String.format("%.2f", totalEstagiosNaoObr)).append("%\n");
+
+				        double totalPraticas = acompanhamento.acompanharPraticasExtensionistas();
+				        mensagem.append("Práticas Extensionistas: ").append(String.format("%.2f", totalPraticas)).append("%\n");
+
+				        double totalResumos = acompanhamento.acompanharResumoExpandido();
+				        mensagem.append("Resumos Expandidos: ").append(String.format("%.2f", totalResumos)).append("%\n");
+
+				        double totalServicos = acompanhamento.acompanharUnipampaCidada();
+				        mensagem.append("Serviços Comunitários: ").append(String.format("%.2f", totalServicos)).append("%\n");
+
+				    }
+				}
+
+				if (mensagem.length() == 0) {
+				    return "Nenhum item cadastrado nesta categoria.";
+				}
+				return mensagem.toString();
+		}
+
 
     class BotaoNavegacao extends JButton {
         private boolean selecionado;

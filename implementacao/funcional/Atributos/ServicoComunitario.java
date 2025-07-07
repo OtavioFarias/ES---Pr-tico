@@ -20,7 +20,7 @@ public class ServicoComunitario implements AtividadeCurricular{
 	}
 	@Override
 	public String toString() {
-		return "\nServicoComunitario \natividade=" + atividade + "\nhoras=" + horas;
+		return "ServicoComunitario \natividade=" + atividade + "\nhoras=" + horas + "\n";
 	}
 	private String atividade;
     private int horas;

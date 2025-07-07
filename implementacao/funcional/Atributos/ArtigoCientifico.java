@@ -32,7 +32,7 @@ public class ArtigoCientifico implements Publicacoes{
 	}
 	@Override
 	public String toString() {
-		return "\nArtigoCientifico: \ntitulo=" + titulo + "\nveiculo=" + veiculo;
+		return "ArtigoCientifico: \ntitulo:" + titulo + "\nveiculo:" + veiculo + "\n";
 	}
 
 		private String titulo;

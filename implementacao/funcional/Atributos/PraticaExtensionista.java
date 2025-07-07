@@ -10,7 +10,7 @@ public class PraticaExtensionista implements AtividadeCurricular{
 	}
 	@Override
 	public String toString() {
-		return "\nPraticaExtensionista \nprojeto=" + projeto + "\ncreditos=" + creditos;
+		return "PraticaExtensionista \nprojeto=" + projeto + "\ncreditos=" + creditos + "\n";
 	}
 	public String getProjeto() {
 		return projeto;

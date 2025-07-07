@@ -7,12 +7,12 @@ import classes.tools.*;
 
 public class AcompanhamentoCurso {
 
-		HistoricoModelo modelo;
+		HistoricoModelo modelo = new HistoricoModelo();
 		Historico historico;
 
-		public AcompanhamentoCurso(HistoricoModelo modelo, Historico historico){
+		public AcompanhamentoCurso(Historico historico){
 
-			this.modelo = modelo;
+			this.historico = historico;
 
 		}
 
@@ -37,7 +37,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return n / modelo.QuantidadeComponenteCurricularObrigatorio;
+			return n*100/ modelo.QuantidadeComponenteCurricularObrigatorio;
 
 		}
 
@@ -62,7 +62,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return n / modelo.QuantidadeComponentesCurricularesComplementares;
+			return n*100/ modelo.QuantidadeComponentesCurricularesComplementares;
 
     }
 
@@ -78,7 +78,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n/15)/modelo.QuantidadeUnipampaCidada;
+			return (n*100/15)/modelo.QuantidadeUnipampaCidada;
 
     }
 
@@ -94,7 +94,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n/15)/modelo.QuantidadeEstagioObrigatorio;
+			return (n*100/15)/modelo.QuantidadeEstagioObrigatorio;
 
     }
 
@@ -110,7 +110,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return n/modelo.QuantidadePraticasExtensionistas;
+			return n*100/modelo.QuantidadePraticasExtensionistas;
 
     }
 
@@ -126,7 +126,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n/15)/modelo.QuantidadeAtividadesComplementares;
+			return (n*100/15)/modelo.QuantidadeAtividadesComplementares;
 
     }
 
@@ -142,7 +142,7 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n/15)/modelo.QuantidadeResumoExpandido;
+			return (n*100)/modelo.QuantidadeResumoExpandido;
 
     }
 
@@ -152,13 +152,18 @@ public class AcompanhamentoCurso {
 
 			int n = 0;
 
+			System.out.println(artigos);
+
 			for(ArtigoCientifico ar : artigos){
 
 				n ++;
 
+			System.out.println(n);
+
+
 			}
 
-			return (n/15)/modelo.QuantidadeArtigoCientifico;
+			return n*100/modelo.QuantidadeArtigoCientifico;
 
     }
 

@@ -10,7 +10,7 @@ public class SituacaoENADE {
 
 	@Override
 	public String toString() {
-		return "\nSituacaoENADE \nregular=" + regular;
+		return "SituacaoENADE \nregular=" + regular + "\n";
 	}
 
 	public boolean getRegular() {
