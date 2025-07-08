@@ -36,7 +36,7 @@ public class HistoricoModelo {
     public List<ComponenteCurricularNaoObrigatorio> getComponentesCurricularesNaoObrigatorios() {
         return componentesCurricularesNaoObrigatorios;
     }
-
+		/*
     // Método para ler o CSV e carregar os componentes obrigatórios
     public void carregarComponentesObrigatoriosDeCSV(String caminhoCSV) {
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoCSV))) {
@@ -89,4 +89,5 @@ public class HistoricoModelo {
             System.err.println("Erro ao converter número no CSV: " + e.getMessage());
         }
     }
+    */
 }

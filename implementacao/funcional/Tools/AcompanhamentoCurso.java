@@ -19,6 +19,8 @@ public class AcompanhamentoCurso {
 		public double acompanharComponenteCurricularObrigatorio(){
 
 			List<Integer> componentesId = historico.getIDComponentesCurricularesObrigatorios();
+			int n = componentesId.size();
+			/*
 			List<ComponenteCurricularObrigatorio> componentes = modelo.getComponentesCurricularesObrigatorios();
 
 			int n = 0;
@@ -36,7 +38,7 @@ public class AcompanhamentoCurso {
 				}
 
 			}
-
+			*/
 			return n*100/ modelo.QuantidadeComponenteCurricularObrigatorio;
 
 		}
@@ -44,6 +46,8 @@ public class AcompanhamentoCurso {
     public double acompanharComponentesCurricularesComplementares(){
 
 			List<Integer> componentesId = historico.getIDComponentesCurricularesNaoObrigatorios();
+			int n = componentesId.size();
+			/*
 			List<ComponenteCurricularNaoObrigatorio> componentes = modelo.getComponentesCurricularesNaoObrigatorios();
 
 			int n = 0;
@@ -61,7 +65,7 @@ public class AcompanhamentoCurso {
 				}
 
 			}
-
+			*/
 			return n*100/ modelo.QuantidadeComponentesCurricularesComplementares;
 
     }
@@ -152,14 +156,9 @@ public class AcompanhamentoCurso {
 
 			int n = 0;
 
-			System.out.println(artigos);
-
 			for(ArtigoCientifico ar : artigos){
 
 				n ++;
-
-			System.out.println(n);
-
 
 			}
 

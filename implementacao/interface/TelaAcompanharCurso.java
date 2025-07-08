@@ -2,7 +2,7 @@
 package classes.interfaceGrafica;
 
 import classes.atributos.*;
-import classes.tools.AcompanhamentoCurso;
+import classes.tools.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -52,7 +52,7 @@ public class TelaAcompanharCurso {
         painelConteudoCentral.setBorder(new EmptyBorder(10, 25, 20, 25));
 
         String[] titulos = {
-                "Resumo Completo", "Ver Artigos", "Ver Atividades Complementares", "Ver Cadeiras Obrigatórias", "Ver Cadeiras Opcionais",
+                "Resumo Completo", "Ver Artigos", "Ver Atividades Complementares", "Ver Componentes Curriculares Obrigatórios", "Ver Componentes Curriculares Opcionais",
                 "Ver Estágios Obrigatórios", "Ver Estágios Não Obrigatórios", "Ver Práticas Extensionistas",
                 "Ver Resumos Expandidos", "Ver Serviços Comunitários", "Ver Situação ENADE"
         };
@@ -132,7 +132,7 @@ public class TelaAcompanharCurso {
     }
 
     private String obterDadosFormatados(int opcao) {
-				StringBuilder mensagem = new StringBuilder();
+    		StringBuilder mensagem = new StringBuilder();
 				Historico historico = discente.getHistorico();
 				AcompanhamentoCurso acompanhamento = new AcompanhamentoCurso(historico);
 				double total = 0.0;
@@ -150,14 +150,43 @@ public class TelaAcompanharCurso {
 				   			mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
 				    }
 				    case 4 -> {
-				        historico.getIDComponentesCurricularesObrigatorios().forEach(c -> mensagem.append("ID do Componente: ").append(c).append("\n"));
-				        //double total = AcompanhamentoCurso.acompanharCadeirasObrigatorias();
-				        //mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+
+				        lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurriculares");
+								List<String> nomesComponentes = componente.getComponentes();
+
+								List<Integer> ids = historico.getIDComponentesCurricularesObrigatorios();
+
+								for (Integer id : ids) {
+										// IDs começam em 1, lista usa índice 0
+										if (id > 0 && id <= nomesComponentes.size()) {
+												String nomeComponente = nomesComponentes.get(id - 1);
+												mensagem.append(nomeComponente).append("\n");
+										} else {
+												mensagem.append("ID: ").append(id).append(" - [ID inválido]\n");
+										}
+								}
+
+								total = acompanhamento.acompanharComponenteCurricularObrigatorio();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+
 				    }
 				    case 5 -> {
-				        historico.getIDComponentesCurricularesNaoObrigatorios().forEach(c -> mensagem.append("ID do Componente: ").append(c).append("\n"));
-				        //double total = AcompanhamentoCurso.acompanharCadeirasOpcionais();
-				        //mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
+				        lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
+								List<String> nomesComponentes = componente.getComponentes();
+
+								List<Integer> ids = historico.getIDComponentesCurricularesNaoObrigatorios();
+
+								for (Integer id : ids) {
+										// IDs começam em 1, lista usa índice 0
+										if (id > 0 && id <= nomesComponentes.size()) {
+												String nomeComponente = nomesComponentes.get(id - 1);
+												mensagem.append(nomeComponente).append("\n");
+										} else {
+												mensagem.append("ID: ").append(id).append(" - [ID inválido]\n");
+										}
+								}
+								total = acompanhamento.acompanharComponentesCurricularesComplementares();
+				        mensagem.append("Percentual de Conclusão: ").append(total).append("%\n");
 				    }
 				    case 6 -> {
 				        historico.getEstagioObrigatorio().forEach(e -> mensagem.append(e.toString()).append("\n\n"));

@@ -74,13 +74,17 @@ public class Historico {
 
 		public void cadastrarIDComponenteCurricularNaoObrigatorio(int id){
 
-			idComponentesCurricularesNaoObrigatorios.add(id);
+			if (!idComponentesCurricularesObrigatorios.contains(id)) {
+        idComponentesCurricularesObrigatorios.add(id);
+    	}
 
 		}
 
 		public void cadastrarIDComponenteCurricularObrigatorio(int id){
 
-				idComponentesCurricularesObrigatorios.add(id);
+				if (!idComponentesCurricularesNaoObrigatorios.contains(id)) {
+        		idComponentesCurricularesNaoObrigatorios.add(id);
+    		}
 
 		}
 

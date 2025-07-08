@@ -273,7 +273,7 @@ public class TelaCadastrarDiscente {
 									for (int i = 0; i < checkBoxes.size(); i++) {
 										  if (checkBoxes.get(i).isSelected()) {
 										      int id = i + 1; // ID é o índice + 1
-										      discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
+										      discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(id);
 										      selecionouAlgo = true;
 										  }
 									}

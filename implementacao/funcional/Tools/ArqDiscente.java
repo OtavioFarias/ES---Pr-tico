@@ -154,12 +154,12 @@ public class ArqDiscente {
 
             // Cadeiras Obrigatórias
             for (int co : historico.getIDComponentesCurricularesObrigatorios()) {
-                writer.write(String.format("%s,Componente Curricular Obrigatorio,ID: %d\n", co));
+                writer.write(String.format(",Componente Curricular Obrigatorio,ID: %d\n", co));
             }
 
             // Cadeiras Opcionais
             for (int op : historico.getIDComponentesCurricularesNaoObrigatorios()) {
-                writer.write(String.format("%s,Componente Curricular Não Obrigatorio,ID: %d\n", op));
+                writer.write(String.format(",Componente Curricular Não Obrigatorio,ID: %d\n", op));
             }
 
             // Estágios Obrigatórios
