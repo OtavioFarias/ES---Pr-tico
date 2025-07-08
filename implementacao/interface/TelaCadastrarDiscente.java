@@ -2,7 +2,7 @@
 package classes.interfaceGrafica;
 
 import classes.atributos.*;
-import classes.tools.ArqDiscente;
+import classes.tools.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TelaCadastrarDiscente {
 
@@ -173,62 +175,155 @@ public class TelaCadastrarDiscente {
                 String veiculo = JOptionPane.showInputDialog("Veículo de publicação:");
                 if (titulo == null || veiculo == null) return; // Checagem se o usuário cancelou
                 discente.getHistorico().cadastrarArtigo(titulo, veiculo);
-                System.out.println("1");
+
             }
             // Adicione checagens de 'null' para os outros JOptionPanes também se desejar
             case 2 -> {
                 String desc = JOptionPane.showInputDialog("Descrição da atividade:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarAtividadeComplementar(desc, horas);
-                System.out.println("2");
+
             }
-            case 3 -> {
-                int id = Integer.parseInt(JOptionPane.showInputDialog("ID do Componente Curricular Obrigatório:"));
-                discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
-                System.out.println("3");
-            }
+           case 3 -> {
+							// Lê os componentes do arquivo CSV
+							lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurriculares");
+							List<String> nomesComponentes = componente.getComponentes();
+
+							// Painel para conter os checkboxes
+							JPanel panel = new JPanel();
+							panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+							List<JCheckBox> checkBoxes = new ArrayList<>();
+
+							// Cria um JCheckBox para cada componente
+							for (String nome : nomesComponentes) {
+									JCheckBox checkBox = new JCheckBox(nome);
+									checkBoxes.add(checkBox);
+									panel.add(checkBox);
+							}
+
+							// Adiciona o painel a um JScrollPane para permitir rolagem
+							JScrollPane scrollPane = new JScrollPane(panel);
+							scrollPane.setPreferredSize(new Dimension(400, 300));
+
+							// Exibe a tela de seleção com checkboxes
+							opcao = JOptionPane.showConfirmDialog(
+									null,
+									scrollPane,
+									"Selecione os Componentes Curriculares Obrigatórios",
+									JOptionPane.OK_CANCEL_OPTION,
+									JOptionPane.PLAIN_MESSAGE
+							);
+
+							// Se o usuário clicou em OK
+							if (opcao == JOptionPane.OK_OPTION) {
+									boolean selecionouAlgo = false;
+
+									for (int i = 0; i < checkBoxes.size(); i++) {
+										  if (checkBoxes.get(i).isSelected()) {
+										      int id = i + 1; // ID é o índice + 1
+										      discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
+										      selecionouAlgo = true;
+										  }
+									}
+
+									if (selecionouAlgo) {
+										  JOptionPane.showMessageDialog(null, "Componentes cadastrados com sucesso!");
+									} else {
+										  JOptionPane.showMessageDialog(null, "Nenhum componente foi selecionado.");
+									}
+							} else {
+									System.out.println("Operação cancelada.");
+							}
+						}
+
             case 4 -> {
-                int id = Integer.parseInt(JOptionPane.showInputDialog("ID do Componente Curricular Não Obrigatório:"));
-                discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(id);
-                System.out.println("4");
+                // Lê os componentes do arquivo CSV
+							lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
+							List<String> nomesComponentes = componente.getComponentes();
+
+							// Painel para conter os checkboxes
+							JPanel panel = new JPanel();
+							panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+							List<JCheckBox> checkBoxes = new ArrayList<>();
+
+							// Cria um JCheckBox para cada componente
+							for (String nome : nomesComponentes) {
+									JCheckBox checkBox = new JCheckBox(nome);
+									checkBoxes.add(checkBox);
+									panel.add(checkBox);
+							}
+
+							// Adiciona o painel a um JScrollPane para permitir rolagem
+							JScrollPane scrollPane = new JScrollPane(panel);
+							scrollPane.setPreferredSize(new Dimension(400, 300));
+
+							// Exibe a tela de seleção com checkboxes
+							opcao = JOptionPane.showConfirmDialog(
+									null,
+									scrollPane,
+									"Selecione os Componentes Curriculares Obrigatórios",
+									JOptionPane.OK_CANCEL_OPTION,
+									JOptionPane.PLAIN_MESSAGE
+							);
+
+							// Se o usuário clicou em OK
+							if (opcao == JOptionPane.OK_OPTION) {
+									boolean selecionouAlgo = false;
+
+									for (int i = 0; i < checkBoxes.size(); i++) {
+										  if (checkBoxes.get(i).isSelected()) {
+										      int id = i + 1; // ID é o índice + 1
+										      discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
+										      selecionouAlgo = true;
+										  }
+									}
+
+									if (selecionouAlgo) {
+										  JOptionPane.showMessageDialog(null, "Componentes cadastrados com sucesso!");
+									} else {
+										  JOptionPane.showMessageDialog(null, "Nenhum componente foi selecionado.");
+									}
+							} else {
+									System.out.println("Operação cancelada.");
+							}
             }
             case 5 -> {
                 String empresa = JOptionPane.showInputDialog("Empresa:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 String tipo = JOptionPane.showInputDialog("Tipo:");
                 discente.getHistorico().cadastrarEstagioObrigatorio(empresa, horas, tipo);
-                System.out.println("5");
+
             }
             case 6 -> {
                 String empresa = JOptionPane.showInputDialog("Empresa:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 String tipo = JOptionPane.showInputDialog("Tipo:");
                 discente.getHistorico().cadastrarEstagioNaoObrigatorio(empresa, horas, tipo);
-                System.out.println("6");
+
             }
             case 7 -> {
                 String atividade = JOptionPane.showInputDialog("Atividade:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarPraticaExtensionista(atividade, horas);
-                System.out.println("7");
+
             }
             case 8 -> {
                 String projeto = JOptionPane.showInputDialog("Projeto:");
                 String papel = JOptionPane.showInputDialog("Papel:");
                 int creditos = Integer.parseInt(JOptionPane.showInputDialog("Créditos:"));
                 discente.getHistorico().cadastrarResumoExpandido(projeto, papel, creditos);
-                System.out.println("8");
+
             }
             case 9 -> {
                 String desc = JOptionPane.showInputDialog("Descrição do serviço:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarServicoComunitario(desc, horas);
-                System.out.println("9");
+
             }
             case 10 -> {
                 int confirm = JOptionPane.showConfirmDialog(null, "Situação ENADE regular?");
                 discente.getHistorico().cadastrarENADE(confirm == JOptionPane.YES_OPTION);
-                System.out.println("10");
+
             }
             default -> JOptionPane.showMessageDialog(null, "Opção inválida.");
         }
