@@ -238,30 +238,30 @@ public class TelaCadastrarDiscente {
 
             case 4 -> {
                 // Lê os componentes do arquivo CSV
-							lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
-							List<String> nomesComponentes = componente.getComponentes();
+							lerComponentesCurriculares componenteN = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
+							List<String> nomesComponentesN = componenteN.getComponentes();
 
 							// Painel para conter os checkboxes
-							JPanel panel = new JPanel();
-							panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-							List<JCheckBox> checkBoxes = new ArrayList<>();
+							JPanel panelN = new JPanel();
+							panelN.setLayout(new BoxLayout(panelN, BoxLayout.Y_AXIS));
+							List<JCheckBox> checkBoxesN = new ArrayList<>();
 
 							// Cria um JCheckBox para cada componente
-							for (String nome : nomesComponentes) {
-									JCheckBox checkBox = new JCheckBox(nome);
-									checkBoxes.add(checkBox);
-									panel.add(checkBox);
+							for (String nome : nomesComponentesN) {
+									JCheckBox checkBoxN = new JCheckBox(nome);
+									checkBoxesN.add(checkBoxN);
+									panelN.add(checkBoxN);
 							}
 
 							// Adiciona o painel a um JScrollPane para permitir rolagem
-							JScrollPane scrollPane = new JScrollPane(panel);
-							scrollPane.setPreferredSize(new Dimension(400, 300));
+							JScrollPane scrollPaneN = new JScrollPane(panelN);
+							scrollPaneN.setPreferredSize(new Dimension(400, 300));
 
 							// Exibe a tela de seleção com checkboxes
 							opcao = JOptionPane.showConfirmDialog(
 									null,
-									scrollPane,
-									"Selecione os Componentes Curriculares Obrigatórios",
+									scrollPaneN,
+									"Selecione os Componentes Curriculares Não Obrigatórios",
 									JOptionPane.OK_CANCEL_OPTION,
 									JOptionPane.PLAIN_MESSAGE
 							);
@@ -270,10 +270,10 @@ public class TelaCadastrarDiscente {
 							if (opcao == JOptionPane.OK_OPTION) {
 									boolean selecionouAlgo = false;
 
-									for (int i = 0; i < checkBoxes.size(); i++) {
-										  if (checkBoxes.get(i).isSelected()) {
-										      int id = i + 1; // ID é o índice + 1
-										      discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(id);
+									for (int i = 0; i < checkBoxesN.size(); i++) {
+										  if (checkBoxesN.get(i).isSelected()) {
+										      int idN = i + 1; // ID é o índice + 1
+										      discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(idN);
 										      selecionouAlgo = true;
 										  }
 									}

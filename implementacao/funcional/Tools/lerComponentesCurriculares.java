@@ -44,6 +44,11 @@ public class lerComponentesCurriculares {
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
+
+        System.out.println("Lendo:" + caminhoArquivo);
+        System.out.println(componentes);
+        System.out.println();
+
     }
 
     // Método para tratar campos CSV com vírgulas dentro de aspas
@@ -67,9 +72,13 @@ public class lerComponentesCurriculares {
         return campos;
     }
 
-    public List<String> getComponentes(){
+    public List<Integer> getCodigos() {
+    		return codigos;
+		}
+
+		public List<String> getComponentes() {
     		return componentes;
-    }
+		}
 
     public List<String> getPreRequisitos(){
     		return preRequisitos;
