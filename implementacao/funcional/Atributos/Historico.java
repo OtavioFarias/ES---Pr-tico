@@ -2,6 +2,7 @@ package classes.atributos;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.Boolean;
+import classes.tools.lerComponentesCurriculares;
 
 public class Historico {
 
@@ -74,15 +75,18 @@ public class Historico {
 
 		public void cadastrarIDComponenteCurricularNaoObrigatorio(int id){
 
-			if (!idComponentesCurricularesObrigatorios.contains(id)) {
+
+			if (!idComponentesCurricularesObrigatorios.contains(id) && podeCadastrarComponente(id, "NaoObrigatorios")) {
         idComponentesCurricularesObrigatorios.add(id);
     	}
+
+
 
 		}
 
 		public void cadastrarIDComponenteCurricularObrigatorio(int id){
 
-				if (!idComponentesCurricularesNaoObrigatorios.contains(id)) {
+				if (!idComponentesCurricularesNaoObrigatorios.contains(id) && podeCadastrarComponente(id, "")) {
         		idComponentesCurricularesNaoObrigatorios.add(id);
     		}
 
@@ -127,6 +131,24 @@ public class Historico {
     public boolean getSituacaoENADE() {
         return situacaoENADE;
     }
+
+		public boolean podeCadastrarComponente(int id, String select){
+
+				lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurriculares" + select);
+				List<String> preRequisitos = componente.getPreRequisitos();
+				String[] idPreRequisitos = preRequisitos.get(id - 1).split(",");
+
+				// Verifica se o discente tem todos os pré-requisitos
+				for (String prereqStr : idPreRequisitos) {
+				    int prereqId = Integer.parseInt(prereqStr);
+				    if (!idComponentesCurricularesObrigatorios.contains(prereqId) && prereqId != 0) {
+				        return false;
+				    }
+				}
+
+				return true;
+		}
+
 
 
   }

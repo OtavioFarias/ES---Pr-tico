@@ -1,7 +1,5 @@
 Nome do Aluno,Tipo,Detalhes
-Componente Curricular Obrigatorio,Artigo,Título: 1
-, ,Veículo: 1
-Componente Curricular Obrigatorio,ID: 3
-Componente Curricular Obrigatorio,ID: 7
-Componente Curricular Obrigatorio,ID: 9
-Componente Curricular Obrigatorio,ENADE,Situação: Irregular
+,Componente Curricular Obrigatorio,ID: 372
+,Componente Curricular Não Obrigatorio,ID: 1
+,Componente Curricular Não Obrigatorio,ID: 7
+0123456789,ENADE,Situação: Irregular

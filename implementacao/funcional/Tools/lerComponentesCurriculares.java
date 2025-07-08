@@ -70,4 +70,8 @@ public class lerComponentesCurriculares {
     public List<String> getComponentes(){
     		return componentes;
     }
+
+    public List<String> getPreRequisitos(){
+    		return preRequisitos;
+    }
 }
