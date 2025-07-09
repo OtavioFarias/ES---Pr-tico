@@ -171,18 +171,18 @@ public class TelaAcompanharCurso {
 
 				    }
 				    case 5 -> {
-				        lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
-								List<String> nomesComponentes = componente.getComponentes();
+				        lerComponentesCurriculares componenteN = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
+								List<String> nomesComponentesN = componenteN.getComponentes();
 
-								List<Integer> ids = historico.getIDComponentesCurricularesNaoObrigatorios();
+								List<Integer> idsN = historico.getIDComponentesCurricularesNaoObrigatorios();
 
-								for (Integer id : ids) {
+								for (Integer idN : idsN) {
 										// IDs começam em 1, lista usa índice 0
-										if (id > 0 && id <= nomesComponentes.size()) {
-												String nomeComponente = nomesComponentes.get(id - 1);
-												mensagem.append(nomeComponente).append("\n");
+										if (idN > 0 && idN <= nomesComponentesN.size()) {
+												String nomeComponenteN = nomesComponentesN.get(idN - 1);
+												mensagem.append(nomeComponenteN).append("\n");
 										} else {
-												mensagem.append("ID: ").append(id).append(" - [ID inválido]\n");
+												mensagem.append("ID: ").append(idN).append(" - [ID inválido]\n");
 										}
 								}
 								total = acompanhamento.acompanharComponentesCurricularesComplementares();

@@ -73,10 +73,10 @@ public class Historico {
 
     }
 
-		public void cadastrarIDComponenteCurricularNaoObrigatorio(int id){
+		public void cadastrarIDComponenteCurricularObrigatorio(int id){
 
 
-			if (!idComponentesCurricularesObrigatorios.contains(id) && podeCadastrarComponente(id, "NaoObrigatorios")) {
+			if (!idComponentesCurricularesObrigatorios.contains(id) && podeCadastrarComponente(id, "")) {
         idComponentesCurricularesObrigatorios.add(id);
     	}
 
@@ -84,9 +84,9 @@ public class Historico {
 
 		}
 
-		public void cadastrarIDComponenteCurricularObrigatorio(int id){
+		public void cadastrarIDComponenteCurricularNaoObrigatorio(int id){
 
-				if (!idComponentesCurricularesNaoObrigatorios.contains(id) && podeCadastrarComponente(id, "")) {
+				if (!idComponentesCurricularesNaoObrigatorios.contains(id) && podeCadastrarComponente(id, "NaoObrigatorios")) {
         		idComponentesCurricularesNaoObrigatorios.add(id);
     		}
 
