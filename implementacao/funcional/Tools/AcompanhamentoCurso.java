@@ -39,7 +39,9 @@ public class AcompanhamentoCurso {
 
 			}
 			*/
-			return n*100/ modelo.QuantidadeComponenteCurricularObrigatorio;
+			double p = n*100/ modelo.QuantidadeComponenteCurricularObrigatorio;
+			if (p > 100) return 100;
+			return p;
 
 		}
 
@@ -66,7 +68,9 @@ public class AcompanhamentoCurso {
 
 			}
 			*/
-			return n*100/ modelo.QuantidadeComponentesCurricularesComplementares;
+			double p = n*100/ modelo.QuantidadeComponentesCurricularesComplementares;
+			if (p > 100) return 100;
+			return p;
 
     }
 
@@ -82,7 +86,9 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n*100/15)/modelo.QuantidadeUnipampaCidada;
+			double p = (n*100/15)/modelo.QuantidadeUnipampaCidada;
+			if (p > 100) return 100;
+			return p;
 
     }
 
@@ -98,7 +104,9 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n*100/15)/modelo.QuantidadeEstagioObrigatorio;
+			double p = (n*100/15)/modelo.QuantidadeEstagioObrigatorio;
+			if (p > 100) return 100;
+			return p;
 
     }
 
@@ -114,8 +122,9 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return n*100/modelo.QuantidadePraticasExtensionistas;
-
+			double p = n*100/modelo.QuantidadePraticasExtensionistas;
+			if (p > 100) return 100;
+			return p;
     }
 
     public double acompanharAtividadesComplementares(){
@@ -130,7 +139,9 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n*100/15)/modelo.QuantidadeAtividadesComplementares;
+			double p = (n*100/15)/modelo.QuantidadeAtividadesComplementares;
+			if (p > 100) return 100;
+			return p;
 
     }
 
@@ -146,7 +157,9 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return (n*100)/modelo.QuantidadeResumoExpandido;
+			double p = (n*100)/modelo.QuantidadeResumoExpandido;
+			if (p > 100) return 100;
+			return p;
 
     }
 
@@ -162,7 +175,9 @@ public class AcompanhamentoCurso {
 
 			}
 
-			return n*100/modelo.QuantidadeArtigoCientifico;
+			double p = n*100/modelo.QuantidadeArtigoCientifico;
+			if (p > 100) return 100;
+			return p;
 
     }
 
