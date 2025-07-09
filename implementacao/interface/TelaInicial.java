@@ -191,20 +191,21 @@ public class TelaInicial {
         }
     }
 
+
     private void habilitarTodosBotoes() {
         for (JButton btn : todosOsBotoes) {
             btn.setEnabled(true);
 
-            // Corrige a cor de fundo ao reabilitar
-            if (btn.getText().equals("Sair do Sistema")) {
-                btn.setBackground(Color.RED);
-            } else if (btn == btnAcompanhar || btn == btnAdicionarHistorico) {
+            // Volta a cor correta, dependendo do botão
+            if (btn == btnAcompanhar || btn == btnAdicionarHistorico) {
                 if (discente != null) {
                     btn.setBackground(COR_BOTAO_PRIMARIO);
                 } else {
                     btn.setEnabled(false);
                     btn.setBackground(Color.LIGHT_GRAY);
                 }
+            } else if (btn.getText().equals("Sair do Sistema")) {
+                btn.setBackground(Color.RED);
             } else {
                 btn.setBackground(COR_BOTAO_PRIMARIO);
             }

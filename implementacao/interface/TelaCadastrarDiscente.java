@@ -33,9 +33,12 @@ public class TelaCadastrarDiscente {
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(COR_FUNDO);
 
+        // Trata o caso de o usuário fechar a janela sem concluir o cadastro
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent e) {
-                if (onClose != null) onClose.run();
+                if (discente == null && onClose != null) {
+                    onClose.run();
+                }
             }
         });
 
@@ -94,8 +97,8 @@ public class TelaCadastrarDiscente {
             }
 
             discente = new Discente(nome, matricula);
-            frame.dispose();
-            mostrarMenuCadastro(onClose);
+            frame.dispose(); // fecha a etapa 1
+            mostrarMenuCadastro(onClose); // abre a etapa 2
             if (onFinish != null) {
                 ArqDiscente.exportarHistoricoParaCSV(discente);
                 onFinish.accept(discente);
@@ -104,7 +107,6 @@ public class TelaCadastrarDiscente {
 
         frame.setVisible(true);
     }
-
 
 
     private void mostrarMenuCadastro(Runnable onClose) {
