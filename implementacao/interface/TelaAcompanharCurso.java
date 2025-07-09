@@ -27,7 +27,7 @@ public class TelaAcompanharCurso {
     private Discente discente;
     private final List<BotaoNavegacao> botoesDeNavegacao = new ArrayList<>();
 
-    public void show(Discente discente) {
+    public void show(Discente discente, Runnable onClose) {
         if (discente == null) {
             JOptionPane.showMessageDialog(null, "Discente não pode ser nulo.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
@@ -82,7 +82,10 @@ public class TelaAcompanharCurso {
 
         JButton btnVoltar = new JButton("Voltar ao Menu Inicial");
         btnVoltar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnVoltar.addActionListener(e -> frame.dispose());
+        btnVoltar.addActionListener(e -> {
+            frame.dispose();
+            if (onClose != null) onClose.run();
+        });
         painelNavegacao.add(btnVoltar);
 
         frame.add(painelNavegacao, BorderLayout.WEST);
@@ -93,8 +96,17 @@ public class TelaAcompanharCurso {
             cardLayout.show(painelConteudoCentral, cardNames[0]);
         }
 
+        // Chamada do callback ao fechar a janela de qualquer forma
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (onClose != null) onClose.run();
+            }
+        });
+
         frame.setVisible(true);
     }
+
 
     private void selecionarBotao(BotaoNavegacao botaoSelecionado) {
         for (BotaoNavegacao btn : botoesDeNavegacao) {

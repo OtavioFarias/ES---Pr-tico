@@ -1,18 +1,21 @@
 package classes.interfaceGrafica;
 
 import classes.atributos.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TelaInicial {
 
     // --- Paleta de Cores ---
     private static final Color COR_FUNDO = new Color(244, 246, 249);
     private static final Color COR_BOTAO_PRIMARIO = new Color(13, 110, 253);
-    private static final Color COR_BOTAO_PRIMARIO_HOVER = new Color(10, 88, 202); // Tom mais escuro
+    private static final Color COR_BOTAO_PRIMARIO_HOVER = new Color(10, 88, 202);
     private static final Color COR_TEXTO_BOTAO = Color.WHITE;
     private static final Color COR_TEXTO_TITULO = new Color(33, 37, 41);
     private static final Color COR_FUNDO_STATUS = new Color(233, 236, 239);
@@ -21,6 +24,8 @@ public class TelaInicial {
     private JLabel lblStatusDiscente;
     private JButton btnAcompanhar;
     private JButton btnAdicionarHistorico;
+
+    private final List<JButton> todosOsBotoes = new ArrayList<>();
 
     public void show() {
         JFrame frame = new JFrame("Sistema de Acompanhamento de Curso");
@@ -62,12 +67,17 @@ public class TelaInicial {
             System.err.println("Ícone não encontrado: icones/sair.png");
         }
 
-        // Começam desabilitados
         btnAcompanhar.setEnabled(false);
         btnAcompanhar.setBackground(Color.LIGHT_GRAY);
 
         btnAdicionarHistorico.setEnabled(false);
         btnAdicionarHistorico.setBackground(Color.LIGHT_GRAY);
+
+        todosOsBotoes.add(btnBuscar);
+        todosOsBotoes.add(btnCadastrar);
+        todosOsBotoes.add(btnAcompanhar);
+        todosOsBotoes.add(btnAdicionarHistorico);
+        todosOsBotoes.add(btnSair);
 
         painelBotoes.add(btnBuscar);
         painelBotoes.add(btnCadastrar);
@@ -88,41 +98,40 @@ public class TelaInicial {
         frame.add(painelStatus, BorderLayout.SOUTH);
 
         // --- AÇÕES DOS BOTÕES ---
-        btnBuscar.addActionListener(e -> new TelaBuscarDiscente().show(d -> {
-            if (d != null) {
-                this.discente = d;
-                lblStatusDiscente.setText("Discente carregado: " + d.getNome());
-
-                btnAcompanhar.setEnabled(true);
-                btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO);
-
-                btnAdicionarHistorico.setEnabled(true);
-                btnAdicionarHistorico.setBackground(COR_BOTAO_PRIMARIO);
-
-                JOptionPane.showMessageDialog(frame, "Discente " + d.getNome() + " carregado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }));
+        btnBuscar.addActionListener(e -> {
+            desabilitarTodosBotoes();
+            new TelaBuscarDiscente().show(d -> {
+                if (d != null) {
+                    this.discente = d;
+                    lblStatusDiscente.setText("Discente carregado: " + d.getNome());
+                    btnAcompanhar.setEnabled(true);
+                    btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO);
+                    btnAdicionarHistorico.setEnabled(true);
+                    btnAdicionarHistorico.setBackground(COR_BOTAO_PRIMARIO);
+                    JOptionPane.showMessageDialog(frame, "Discente " + d.getNome() + " carregado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }, this::habilitarTodosBotoes);
+        });
 
         btnCadastrar.addActionListener(e -> {
+            desabilitarTodosBotoes();
             new TelaCadastrarDiscente().show(d -> {
                 if (d != null) {
                     this.discente = d;
                     lblStatusDiscente.setText("Discente carregado: " + d.getNome());
-
                     btnAcompanhar.setEnabled(true);
                     btnAcompanhar.setBackground(COR_BOTAO_PRIMARIO);
-
                     btnAdicionarHistorico.setEnabled(true);
                     btnAdicionarHistorico.setBackground(COR_BOTAO_PRIMARIO);
-
                     JOptionPane.showMessageDialog(frame, "Discente " + d.getNome() + " cadastrado e carregado!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 }
-            });
+            }, this::habilitarTodosBotoes);
         });
 
         btnAdicionarHistorico.addActionListener(e -> {
             if (discente != null) {
-                new TelaCadastrarDiscente().showSomenteHistorico(discente);
+                desabilitarTodosBotoes();
+                new TelaCadastrarDiscente().showSomenteHistorico(discente, this::habilitarTodosBotoes);
             } else {
                 JOptionPane.showMessageDialog(frame, "Nenhum discente carregado. Use o botão 'Buscar Discente' primeiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
@@ -130,7 +139,8 @@ public class TelaInicial {
 
         btnAcompanhar.addActionListener(e -> {
             if (discente != null) {
-                new TelaAcompanharCurso().show(discente);
+                desabilitarTodosBotoes();
+                new TelaAcompanharCurso().show(discente, this::habilitarTodosBotoes);
             }
         });
 
@@ -173,4 +183,32 @@ public class TelaInicial {
 
         return botao;
     }
+
+    private void desabilitarTodosBotoes() {
+        for (JButton btn : todosOsBotoes) {
+            btn.setEnabled(false);
+            btn.setBackground(Color.LIGHT_GRAY);
+        }
+    }
+
+    private void habilitarTodosBotoes() {
+        for (JButton btn : todosOsBotoes) {
+            btn.setEnabled(true);
+
+            // Corrige a cor de fundo ao reabilitar
+            if (btn.getText().equals("Sair do Sistema")) {
+                btn.setBackground(Color.RED);
+            } else if (btn == btnAcompanhar || btn == btnAdicionarHistorico) {
+                if (discente != null) {
+                    btn.setBackground(COR_BOTAO_PRIMARIO);
+                } else {
+                    btn.setEnabled(false);
+                    btn.setBackground(Color.LIGHT_GRAY);
+                }
+            } else {
+                btn.setBackground(COR_BOTAO_PRIMARIO);
+            }
+        }
+    }
+
 }

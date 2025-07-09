@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class TelaCadastrarDiscente {
 
-    // --- Paleta de Cores do Design (sem alterações) ---
     private static final Color COR_FUNDO = new Color(244, 246, 249);
     private static final Color COR_TEXTO_NORMAL = new Color(33, 37, 41);
     private static final Color COR_BOTAO_PRIMARIO = new Color(13, 110, 253);
@@ -26,18 +25,19 @@ public class TelaCadastrarDiscente {
 
     private Discente discente;
 
-    /**
-     * ETAPA 1: Mostra a primeira janela para coletar nome e matrícula.
-     * O layout foi ajustado para colocar os labels ACIMA dos campos de texto.
-     */
-    public void show(Consumer<Discente> onFinish) {
+    public void show(Consumer<Discente> onFinish, Runnable onClose) {
         JFrame frame = new JFrame("Cadastro de Discente - Etapa 1");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // Aumentei um pouco a altura para acomodar o novo layout vertical
         frame.setSize(450, 350);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(COR_FUNDO);
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (onClose != null) onClose.run();
+            }
+        });
 
         JLabel lblTitulo = new JLabel("Dados Iniciais", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
@@ -48,40 +48,32 @@ public class TelaCadastrarDiscente {
         painelFormulario.setBackground(COR_FUNDO);
         painelFormulario.setBorder(new EmptyBorder(10, 20, 10, 20));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 5, 5, 5); // Espaçamento entre linhas
+        gbc.insets = new Insets(0, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0; // Todos os componentes estarão na mesma coluna (x=0)
+        gbc.gridx = 0;
 
-        // --- INÍCIO DA MUDANÇA DE LAYOUT ---
-
-        // Nome - Label
         JLabel lblNome = new JLabel("Nome completo:");
         lblNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.anchor = GridBagConstraints.WEST; // Alinha o texto à esquerda
-        gbc.gridy = 0; // Linha 0
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridy = 0;
         painelFormulario.add(lblNome, gbc);
 
-        // Nome - Campo de Texto
         JTextField campoNome = new JTextField(20);
         campoNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.gridy = 1; // Linha 1 (abaixo do label)
-        gbc.insets = new Insets(0, 5, 15, 5); // Adiciona espaço extra abaixo do campo
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 5, 15, 5);
         painelFormulario.add(campoNome, gbc);
 
-        // Matrícula - Label
         JLabel lblMatricula = new JLabel("Matrícula (10 dígitos):");
         lblMatricula.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.gridy = 2; // Linha 2
-        gbc.insets = new Insets(0, 5, 5, 5); // Reseta o espaço
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 5, 5, 5);
         painelFormulario.add(lblMatricula, gbc);
 
-        // Matrícula - Campo de Texto
         JTextField campoMatricula = new JTextField(20);
         campoMatricula.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        gbc.gridy = 3; // Linha 3 (abaixo do label)
+        gbc.gridy = 3;
         painelFormulario.add(campoMatricula, gbc);
-
-        // --- FIM DA MUDANÇA DE LAYOUT ---
 
         frame.add(painelFormulario, BorderLayout.CENTER);
 
@@ -92,7 +84,6 @@ public class TelaCadastrarDiscente {
         painelAcao.add(botaoContinuar);
         frame.add(painelAcao, BorderLayout.SOUTH);
 
-        // --- AÇÃO ORIGINAL MANTIDA ---
         botaoContinuar.addActionListener((ActionEvent e) -> {
             String nome = campoNome.getText().trim();
             String matricula = campoMatricula.getText().trim();
@@ -104,22 +95,19 @@ public class TelaCadastrarDiscente {
 
             discente = new Discente(nome, matricula);
             frame.dispose();
-            mostrarMenuCadastro();
+            mostrarMenuCadastro(onClose);
             if (onFinish != null) {
-            		ArqDiscente.exportarHistoricoParaCSV(discente);
+                ArqDiscente.exportarHistoricoParaCSV(discente);
                 onFinish.accept(discente);
             }
         });
 
-
         frame.setVisible(true);
     }
 
-    /**
-     * ETAPA 2: Mostra a segunda janela com as opções de cadastro de histórico.
-     * (Este método não foi alterado)
-     */
-    private void mostrarMenuCadastro() {
+
+
+    private void mostrarMenuCadastro(Runnable onClose) {
         JFrame menuFrame = new JFrame("Cadastrar Informações - Etapa 2");
         menuFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         menuFrame.setSize(600, 500);
@@ -132,7 +120,7 @@ public class TelaCadastrarDiscente {
         lblTitulo.setBorder(new EmptyBorder(15, 10, 10, 10));
         menuFrame.add(lblTitulo, BorderLayout.NORTH);
 
-        JPanel painelBotoes = new JPanel(new GridLayout(0, 2, 10, 10)); // 2 colunas
+        JPanel painelBotoes = new JPanel(new GridLayout(0, 2, 10, 10));
         painelBotoes.setBackground(COR_FUNDO);
         painelBotoes.setBorder(new EmptyBorder(15, 15, 15, 15));
 
@@ -146,7 +134,7 @@ public class TelaCadastrarDiscente {
         for (int i = 0; i < opcoes.length; i++) {
             int opcao = i + 1;
             JButton botao = criarBotaoEstilizado(opcoes[i], COR_BOTAO_SECUNDARIO, COR_BOTAO_SECUNDARIO_HOVER);
-            botao.addActionListener(e -> executarCadastro(opcao)); // Ação original mantida
+            botao.addActionListener(e -> executarCadastro(opcao));
             painelBotoes.add(botao);
         }
 
@@ -157,196 +145,155 @@ public class TelaCadastrarDiscente {
         painelVoltar.setBorder(new EmptyBorder(0, 15, 15, 15));
         JButton botaoVoltar = new JButton("Fechar");
         painelVoltar.add(botaoVoltar);
-
         botaoVoltar.addActionListener(e -> menuFrame.dispose());
-
         menuFrame.add(painelVoltar, BorderLayout.SOUTH);
+
+        menuFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (onClose != null) onClose.run();
+            }
+        });
+
         menuFrame.setVisible(true);
     }
 
-    /**
-     * FUNCIONALIDADE ORIGINAL MANTIDA: Usa JOptionPanes para os cadastros.
-     * (Este método não foi alterado)
-     */
+
+
+
     private void executarCadastro(int opcao) {
         switch (opcao) {
             case 1 -> {
                 String titulo = JOptionPane.showInputDialog("Título do artigo:");
                 String veiculo = JOptionPane.showInputDialog("Veículo de publicação:");
-                if (titulo == null || veiculo == null) return; // Checagem se o usuário cancelou
+                if (titulo == null || veiculo == null) return;
                 discente.getHistorico().cadastrarArtigo(titulo, veiculo);
-
             }
-            // Adicione checagens de 'null' para os outros JOptionPanes também se desejar
             case 2 -> {
                 String desc = JOptionPane.showInputDialog("Descrição da atividade:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarAtividadeComplementar(desc, horas);
-
             }
-           case 3 -> {
-							// Lê os componentes do arquivo CSV
-							lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurriculares");
-							List<String> nomesComponentes = componente.getComponentes();
+            case 3 -> {
+                lerComponentesCurriculares componente = new lerComponentesCurriculares("Cursos/ComponentesCurriculares");
+                List<String> nomesComponentes = componente.getComponentes();
 
-							// Painel para conter os checkboxes
-							JPanel panel = new JPanel();
-							panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-							List<JCheckBox> checkBoxes = new ArrayList<>();
+                JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+                List<JCheckBox> checkBoxes = new ArrayList<>();
 
-							// Cria um JCheckBox para cada componente
-							for (String nome : nomesComponentes) {
-									JCheckBox checkBox = new JCheckBox(nome);
-									checkBoxes.add(checkBox);
-									panel.add(checkBox);
-							}
+                for (String nome : nomesComponentes) {
+                    JCheckBox checkBox = new JCheckBox(nome);
+                    checkBoxes.add(checkBox);
+                    panel.add(checkBox);
+                }
 
-							// Adiciona o painel a um JScrollPane para permitir rolagem
-							JScrollPane scrollPane = new JScrollPane(panel);
-							scrollPane.setPreferredSize(new Dimension(400, 300));
+                JScrollPane scrollPane = new JScrollPane(panel);
+                scrollPane.setPreferredSize(new Dimension(400, 300));
 
-							// Exibe a tela de seleção com checkboxes
-							opcao = JOptionPane.showConfirmDialog(
-									null,
-									scrollPane,
-									"Selecione os Componentes Curriculares Obrigatórios",
-									JOptionPane.OK_CANCEL_OPTION,
-									JOptionPane.PLAIN_MESSAGE
-							);
+                int result = JOptionPane.showConfirmDialog(null, scrollPane,
+                        "Selecione os Componentes Curriculares Obrigatórios", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-							// Se o usuário clicou em OK
-							if (opcao == JOptionPane.OK_OPTION) {
-									boolean selecionouAlgo = false;
-
-									for (int i = 0; i < checkBoxes.size(); i++) {
-										  if (checkBoxes.get(i).isSelected()) {
-										      int id = i + 1; // ID é o índice + 1
-										      discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
-										      selecionouAlgo = true;
-										  }
-									}
-
-									if (selecionouAlgo) {
-										  JOptionPane.showMessageDialog(null, "Componentes cadastrados com sucesso!");
-									} else {
-										  JOptionPane.showMessageDialog(null, "Nenhum componente foi selecionado.");
-									}
-							} else {
-									System.out.println("Operação cancelada.");
-							}
-						}
-
+                if (result == JOptionPane.OK_OPTION) {
+                    boolean selecionouAlgo = false;
+                    for (int i = 0; i < checkBoxes.size(); i++) {
+                        if (checkBoxes.get(i).isSelected()) {
+                            int id = i + 1;
+                            discente.getHistorico().cadastrarIDComponenteCurricularObrigatorio(id);
+                            selecionouAlgo = true;
+                        }
+                    }
+                    if (selecionouAlgo) {
+                        JOptionPane.showMessageDialog(null, "Componentes cadastrados com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Nenhum componente foi selecionado.");
+                    }
+                }
+            }
             case 4 -> {
-                // Lê os componentes do arquivo CSV
-							lerComponentesCurriculares componenteN = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
-							List<String> nomesComponentesN = componenteN.getComponentes();
+                lerComponentesCurriculares componenteN = new lerComponentesCurriculares("Cursos/ComponentesCurricularesNaoObrigatorios");
+                List<String> nomesComponentesN = componenteN.getComponentes();
 
-							// Painel para conter os checkboxes
-							JPanel panelN = new JPanel();
-							panelN.setLayout(new BoxLayout(panelN, BoxLayout.Y_AXIS));
-							List<JCheckBox> checkBoxesN = new ArrayList<>();
+                JPanel panelN = new JPanel();
+                panelN.setLayout(new BoxLayout(panelN, BoxLayout.Y_AXIS));
+                List<JCheckBox> checkBoxesN = new ArrayList<>();
 
-							// Cria um JCheckBox para cada componente
-							for (String nome : nomesComponentesN) {
-									JCheckBox checkBoxN = new JCheckBox(nome);
-									checkBoxesN.add(checkBoxN);
-									panelN.add(checkBoxN);
-							}
+                for (String nome : nomesComponentesN) {
+                    JCheckBox checkBoxN = new JCheckBox(nome);
+                    checkBoxesN.add(checkBoxN);
+                    panelN.add(checkBoxN);
+                }
 
-							// Adiciona o painel a um JScrollPane para permitir rolagem
-							JScrollPane scrollPaneN = new JScrollPane(panelN);
-							scrollPaneN.setPreferredSize(new Dimension(400, 300));
+                JScrollPane scrollPaneN = new JScrollPane(panelN);
+                scrollPaneN.setPreferredSize(new Dimension(400, 300));
 
-							// Exibe a tela de seleção com checkboxes
-							opcao = JOptionPane.showConfirmDialog(
-									null,
-									scrollPaneN,
-									"Selecione os Componentes Curriculares Não Obrigatórios",
-									JOptionPane.OK_CANCEL_OPTION,
-									JOptionPane.PLAIN_MESSAGE
-							);
+                int result = JOptionPane.showConfirmDialog(null, scrollPaneN,
+                        "Selecione os Componentes Curriculares Não Obrigatórios", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-							// Se o usuário clicou em OK
-							if (opcao == JOptionPane.OK_OPTION) {
-									boolean selecionouAlgo = false;
-
-									for (int i = 0; i < checkBoxesN.size(); i++) {
-										  if (checkBoxesN.get(i).isSelected()) {
-										      int idN = i + 1; // ID é o índice + 1
-										      discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(idN);
-										      selecionouAlgo = true;
-										  }
-									}
-
-									if (selecionouAlgo) {
-										  JOptionPane.showMessageDialog(null, "Componentes cadastrados com sucesso!");
-									} else {
-										  JOptionPane.showMessageDialog(null, "Nenhum componente foi selecionado.");
-									}
-							} else {
-									System.out.println("Operação cancelada.");
-							}
+                if (result == JOptionPane.OK_OPTION) {
+                    boolean selecionouAlgo = false;
+                    for (int i = 0; i < checkBoxesN.size(); i++) {
+                        if (checkBoxesN.get(i).isSelected()) {
+                            int idN = i + 1;
+                            discente.getHistorico().cadastrarIDComponenteCurricularNaoObrigatorio(idN);
+                            selecionouAlgo = true;
+                        }
+                    }
+                    if (selecionouAlgo) {
+                        JOptionPane.showMessageDialog(null, "Componentes cadastrados com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Nenhum componente foi selecionado.");
+                    }
+                }
             }
             case 5 -> {
                 String empresa = JOptionPane.showInputDialog("Empresa:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 String tipo = JOptionPane.showInputDialog("Tipo:");
                 discente.getHistorico().cadastrarEstagioObrigatorio(empresa, horas, tipo);
-
             }
             case 6 -> {
                 String empresa = JOptionPane.showInputDialog("Empresa:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 String tipo = JOptionPane.showInputDialog("Tipo:");
                 discente.getHistorico().cadastrarEstagioNaoObrigatorio(empresa, horas, tipo);
-
             }
             case 7 -> {
                 String atividade = JOptionPane.showInputDialog("Atividade:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarPraticaExtensionista(atividade, horas);
-
             }
             case 8 -> {
                 String projeto = JOptionPane.showInputDialog("Projeto:");
                 String papel = JOptionPane.showInputDialog("Papel:");
                 int creditos = Integer.parseInt(JOptionPane.showInputDialog("Créditos:"));
                 discente.getHistorico().cadastrarResumoExpandido(projeto, papel, creditos);
-
             }
             case 9 -> {
                 String desc = JOptionPane.showInputDialog("Descrição do serviço:");
                 int horas = Integer.parseInt(JOptionPane.showInputDialog("Horas:"));
                 discente.getHistorico().cadastrarServicoComunitario(desc, horas);
-
             }
             case 10 -> {
                 int confirm = JOptionPane.showConfirmDialog(null, "Situação ENADE regular?");
                 discente.getHistorico().cadastrarENADE(confirm == JOptionPane.YES_OPTION);
-
             }
             default -> JOptionPane.showMessageDialog(null, "Opção inválida.");
         }
 
-				ArqDiscente.exportarHistoricoParaCSV(discente);
-        // A checagem de nulo no primeiro case evita que esta mensagem apareça se o usuário cancelar.
+        ArqDiscente.exportarHistoricoParaCSV(discente);
         JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
     }
 
-
-    public void showSomenteHistorico(Discente discenteExistente) {
+    public void showSomenteHistorico(Discente discenteExistente, Runnable onClose) {
         if (discenteExistente == null) {
             JOptionPane.showMessageDialog(null, "Nenhum discente carregado.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
         this.discente = discenteExistente;
-        mostrarMenuCadastro();
+        mostrarMenuCadastro(onClose);
     }
 
-    /**
-     * Método auxiliar para criar botões estilizados.
-     * (Este método não foi alterado)
-     */
+
     private JButton criarBotaoEstilizado(String texto, Color corFundo, Color corHover) {
         JButton botao = new JButton(texto);
         botao.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -360,6 +307,7 @@ public class TelaCadastrarDiscente {
             public void mouseEntered(MouseEvent evt) {
                 botao.setBackground(corHover);
             }
+
             public void mouseExited(MouseEvent evt) {
                 botao.setBackground(corFundo);
             }

@@ -26,7 +26,7 @@ public class TelaBuscarDiscente {
     private JLabel lblResultado;
     private JFrame frame;
 
-    public void show(Consumer<Discente> callback) {
+    public void show(Consumer<Discente> callback, Runnable onClose) {
         frame = new JFrame("Buscar Discente por Matrícula");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(450, 350);
@@ -106,6 +106,7 @@ public class TelaBuscarDiscente {
                     Timer timer = new Timer(1500, event -> {
                         callback.accept(discente);
                         frame.dispose();
+                        if (onClose != null) onClose.run();
                     });
                     timer.setRepeats(false);
                     timer.start();
@@ -120,10 +121,22 @@ public class TelaBuscarDiscente {
         btnBuscar.addActionListener(verificarAcao);
         campoMatricula.addActionListener(verificarAcao);
         frame.getRootPane().setDefaultButton(btnBuscar);
-        btnVoltar.addActionListener(e -> frame.dispose());
+
+        btnVoltar.addActionListener(e -> {
+            frame.dispose();
+            if (onClose != null) onClose.run();
+        });
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (onClose != null) onClose.run();
+            }
+        });
 
         frame.setVisible(true);
     }
+
 
     private JButton criarBotaoAcao(String texto, Color corFundo, Color corHover) {
         JButton botao = new JButton(texto);
