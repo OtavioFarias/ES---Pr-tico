@@ -6,13 +6,13 @@ import java.util.*;
 public class lerComponentesCurriculares {
 
     // Vetores (ArrayLists) para armazenar cada coluna
-    static List<Integer> codigos = new ArrayList<>();
-    static List<String> componentes = new ArrayList<>();
-    static List<Integer> ct = new ArrayList<>();
-    static List<Integer> cp = new ArrayList<>();
-    static List<Integer> eadPratica = new ArrayList<>();
-    static List<Integer> ext = new ArrayList<>();
-    static List<String> preRequisitos = new ArrayList<>();
+    List<Integer> codigos = new ArrayList<>();
+    List<String> componentes = new ArrayList<>();
+    List<Integer> ct = new ArrayList<>();
+    List<Integer> cp = new ArrayList<>();
+    List<Integer> eadPratica = new ArrayList<>();
+    List<Integer> ext = new ArrayList<>();
+    List<String> preRequisitos = new ArrayList<>();
 
     public lerComponentesCurriculares(String arq) {
         String caminhoArquivo = arq + ".csv"; // Caminho do seu arquivo CSV
@@ -44,10 +44,6 @@ public class lerComponentesCurriculares {
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
-
-        System.out.println("Lendo:" + caminhoArquivo);
-        System.out.println(componentes);
-        System.out.println();
 
     }
 
